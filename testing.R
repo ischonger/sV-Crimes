@@ -94,3 +94,7 @@ plot(crimes.data$crimes, crimes.data$region)
 
 m4 <- glm(normY~(1+prbarr+region), data = crimes.data)
 AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir, m4)
+
+m4Wfir <- glm(normY~(1+prbarr+region+area+density+area:density+wfir), data = crimes.data)
+AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir, m4, m4Wfir)
+anova(mDensity, m3, m3Wfir, m4, m4Wfir)
