@@ -93,8 +93,33 @@ plot(crimes.data$crimes, crimes.data$area)
 plot(crimes.data$crimes, crimes.data$region)
 
 m4 <- glm(normY~(1+prbarr+region), data = crimes.data)
+AIC(m4)
 AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir, m4)
 
 m4Wfir <- glm(normY~(1+prbarr+region+area+density+area:density+wfir), data = crimes.data)
 AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir, m4, m4Wfir)
 anova(mDensity, m3, m3Wfir, m4, m4Wfir)
+
+installed.packages("bestglm")
+library("bestglm")
+
+m4Wfir <- glm(normY~(1+prbarr+region+area+density+area:density+wfir), data = crimes.data, family = poisson)
+
+# single models #
+mPrbarr <- glm(normY~(1+prbarr), data = crimes.data)
+mPrbpris <- glm(normY~(1+prbpris), data = crimes.data)
+mPolpc <- glm(normY~(1+prbpris), data = crimes.data)
+mDensity <- glm(normY~(1+density), data = crimes.data)
+mArea <- glm(normY~(1+area), data = crimes.data)
+mTaxpc <- glm(normY~(1+taxpc), data = crimes.data)
+mRegion <- glm(normY~(1+region), data = crimes.data)
+mPctmin <- glm(normY~(1+pctmin), data = crimes.data)
+mPctymale <- glm(normY~(1+pctymale), data = crimes.data)
+mWcon <- glm(normY~(1+wcon), data = crimes.data)
+mWsta <- glm(normY~(1+wsta), data = crimes.data)
+mWser <- glm(normY~(1+wser), data = crimes.data)
+mWtrd <- glm(normY~(1+wtrd), data = crimes.data)
+mWfir <- glm(normY~(1+wfir), data = crimes.data)
+AIC(mPrbarr, mPrbpris, mPolpc, mDensity, mArea, 
+    mTaxpc, mRegion, mPctmin, mPctymale, mWcon, mWsta, mWser, mWtrd, mWfir)
+
