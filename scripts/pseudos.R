@@ -1,12 +1,18 @@
 ### Pseudos ###
 #mPseudo5 <- glm(normY ~ density, data = pseudo.data)
 require(MASS)
-pseudo.data <- rnegbin(90, mu = predict(mStep, type = "response"),
+pseudo.data1 <- rnegbin(90, mu = predict(mStep, type = "response"),
                        theta = 0.7566)
+
+pseudo.data2 <- rpois(90, lambda = predict(mStepO, type = "response"))
 head(pseudo.data)
+pseudo.data2
+plot(pseudo.data2)
 
 plot(crimes~(1+density), data = crimes.data, col = region, pch = 16)
 points(crimes.data$crimes, pseudo.data, col = 9)
+points(crimes.data$crimes)
+points(pseudo.data2, col = 3)
 
 # west
 crimes.data.west <- crimes.data[crimes.data$region == "west", ]
@@ -28,3 +34,62 @@ plot(crimes.data.central$crimes)
 crimes.data.other <- crimes.data[crimes.data$region == "other", ]
 plot(crimes.data.other$crimes)
 
+crimes.data.noWest <- rbind(crimes.data.central, crimes.data.other)
+plot(crimes.data.noWest$crimes, col = 2)
+points(pseudo.data2)
+points(pseudo.data1, col = "green")
+points(pseudo.data, col = "blue")
+
+## gegenüberstellung:
+# daten ohne ausreißer
+plot(crimes.data.noWest$crimes)
+# inkl pseudos
+points(pseudo.data1, col = "green")
+
+# daten mit ausreißern
+plot(crimes.data$crimes, col = "blue")
+points(pseudo.data1, col = "red")
+
+
+### wähle randomisiert 30 elemente aus crimes.data$crimes aus 
+### und vergleiche diese mit 30 randomisierten zufallszahlen von rpois(), wenn theta = -1
+### oder rnegbin(), wenn theta >= 0
+test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
+  set.seed(seed)
+  
+  sC <- sample(crimes.data$crimes, amount)
+  if(theta == -1) {
+    sP <- rpois(90, lambda = predict(model, type = "response"))
+  } else {
+    sP <- rnegbin(90, mu = predict(mStep, type = "response"),
+                  theta = theta)
+  }
+    
+  plot(sC)
+  points(sP, col = "blue")
+  
+  dist <- sC-sP
+  dist <- dist[!is.na(dist)]
+  dist
+  median(dist)
+  
+  m <- model.matrix(model)
+  m
+}
+test(seed = 6153134)
+test(seed = 2165464, model = m3O2)
+test(seed = 6548, model = m3O2)
+test(seed = 6548, model = mStepO)
+test(seed = 6546512, model = m3O2)
+test(seed = 6546512, model = mStepO)
+test(seed = 6546512, model = m3O2, theta = -1)
+test(seed = 6546512, model = mStepO, theta = 0.6289)
+# -114.0778
+
+mDensity <- glm(crimes~density, data = crimes.data)
+test(seed = 6546512, model = mDensity, theta = 0.54)
+test(seed = 6546512, model = mDensity, theta = -1)
+
+test(model = mDensity)
+deviance(m3O2)
+deviance(mDensity)

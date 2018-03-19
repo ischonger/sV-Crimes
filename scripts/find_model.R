@@ -1,8 +1,13 @@
-setwd(dir = "~/Dokumente/Master/3. Fachsemester/statistische Verfahren/WS 17⁄18/projekt/crimes/")
+#setwd(dir = "~/Dokumente/Master/3. Fachsemester/statistische Verfahren/WS 17⁄18/projekt/crimes/")
 crimes.data <- read.csv("crimes.csv")
 head(crimes.data)
 plot(crimes.data$crimes~crimes.data$prbarr)
 plot(crimes.data$crimes, crimes.data$prbarr)
+
+
+
+#---------------------------------------------------------------------------------##
+##----------------------- 1. ansatz: ausprobieren -------------------------------##
 
 cpa <- crimes.data$crimes/crimes.data$area # crimes per area
 
@@ -45,19 +50,18 @@ plot(mArrest, which = 1)
 AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest)
 add1(mArrest, scope = ~(1+crimes.data$prbarr))
 
-maxY <- max(crimes.data$crimes)
-maxY
-normY <- crimes.data$crimes/maxY
-normY
-plot(normY, crimes.data$prbarr)
-mArrestNorm <- glm(normY~(1+prbarr), data = crimes.data)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm)
+#maxY <- max(crimes.data$crimes)
+#maxY
+#normY <- crimes.data$crimes/maxY
+#normY
+#plot(normY, crimes.data$prbarr)
+#mArrestNorm <- glm(normY~(1+prbarr), data = crimes.data)
+#AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm)
 
 mArea <- glm(crimes~1+area, data = crimes.data)
 plot(mArea, which = 1)
 AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea)
 plot(crimes.data$crimes, crimes.data$area)
-# wtf: the smaller the area the more crimes?
 
 plot(crimes.data$crimes, crimes.data$density)
 mDensity <- glm(crimes~1+density, data = crimes.data)
@@ -71,104 +75,87 @@ AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3)
 # cpa~1+area+density+area:density => 426. bis jetzt beste!
 plot(m3, which = 1)
 coef(m3)
-?coef
+anova(m3)
 
-
-m3Wcon <- glm(crimes~1+area+density+area:density+wcon, data = crimes.data)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wcon)
-
-m3Wsta <- glm(crimes~1+area+density+area:density+wsta, data = crimes.data)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wsta)
-
+## bestes modell, wenn ein lohn-eingabevektor hinzugenommen wird:
 m3Wser <- glm(crimes~1+area+density+area:density+wser, data = crimes.data)
 AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wser)
-# klein wenig besser
+step(m3Wser, ~(1+area+density+wser)^2)
 
-m3Wtrd <- glm(crimes~1+area+density+area:density+wtrd, data = crimes.data)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wtrd)
+m3Opt <- glm(formula = crimes ~ area + density + wser + area:density + 
+               density:wser, data = crimes.data)
+AIC(m3Opt)
+cv(m3Opt); cv(m3)
 
-m3Wfir <- glm(crimes~1+area+density+area:density+wfir, data = crimes.data)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir)
+m3Opt <- glm(formula = crimes ~ area + density + wser + area:density + 
+               density:wser, data = crimes.data)
 
+m3Opt2 <- glm(formula = crimes ~ area + density + wser + area:density + 
+                density:wser + prbarr + prbpris, data = crimes.data)
+cv(m3Opt2)
+cv(m3Opt)
+step(m3Opt2, ~(1 + area + density + wser + prbarr + prbpris)^2)
+m3O2 <- glm(formula = crimes ~ area + density + wser + prbarr + area:density + 
+            density:wser + density:prbarr + wser:prbarr + area:prbarr, 
+            data = crimes.data)
+AIC(m3O2, m3Opt2, m3Opt)
+cv(m3O2); cv(m3Opt2); cv(m3Opt)
+anova(m3O2, m3Opt2, m3Opt)
+
+m3O2_t <- glm(formula = crimes ~ area + density + wser + prbarr + area:density + 
+              density:wser + density:prbarr + wser:prbarr + area:prbarr
+              data = crimes.data)
+cv(m3O2); cv(m3Opt2); cv(m3Opt); cv(m3O2_p)
+
+step(m3O2_p, ~(1+area+density+wser+prbarr+taxpc)^2)
+mT <- glm(formula = crimes ~ area + density + wser + prbarr + taxpc + 
+               area:density + density:wser + density:prbarr + wser:prbarr + 
+               area:prbarr + prbarr:taxpc, data = crimes.data)
+cv(m3O2); cv(m3Opt2); cv(m3Opt); cv(mT)
+AIC(m3O2, m3Opt2, m3Opt, mTest)
+
+step(m3O2_p, ~(1+area+density+wser+prbarr+region)^2)
+mR <- glm(formula = crimes ~ area + density + wser + prbarr + region + 
+            area:density + density:wser + density:prbarr + wser:prbarr + 
+            density:region + wser:region, data = crimes.data)
+cv(m3O2); cv(m3Opt2); cv(m3Opt); cv(mT); cv(mR)
+AIC(m3O2, m3Opt2, m3Opt, mT, mR)
+
+#---------------------------------------------------------------------------------#
+### frage:
+### AIC eignet sich nicht gut als absolutes maß zur beurteilung der güte eines modells.
+### kann ich die cv dafür benutzen?
+### m3Wser recht gut - 
+## vergleiche m3 mit einflussgröße crimes / cpa mittels cv
+m3WserCPA <- glm(cpa~1+area+density+area:density+wser, data = crimes.data)
+AIC(m3WserCPA)
+cvM3 <- cbind(cv(m3Wser), cv(m3WserCPA))
+cvM3[1,]
+# der AIC-wert von cpa-basierten werten war immer recht klein.
+# im vergleich mit cv sind solche modelle aber wesentlich schlechter.
+cvTest <- cbind(cv(mAll2), cv(m1))
+cvTest[1,]
+# ein sehr genaues modell hat einen wesentlich kleineren fehler als
+# ein sehr ungenaues. ==> passt!
 plot(crimes.data$crimes, crimes.data$area)
 plot(crimes.data$crimes, crimes.data$region)
 
-m4 <- glm(normY~(1+prbarr+region), data = crimes.data)
-AIC(m4)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir, m4)
+AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArea, mDensity, 
+    m3, m3Wser, m3Opt, m3Opt2, m3O2, mT, mR)
 
-m4Wfir <- glm(normY~(1+prbarr+region+area+density+area:density+wfir), data = crimes.data)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity, m3, m3Wfir, m4, m4Wfir)
-anova(mDensity, m3, m3Wfir, m4, m4Wfir)
+# vergleiche die empirisch gefundenen modelle mittels kreuzvalidierung:
+cvE <- cbind(cv(m0), cv(mAll), cv(m1), cv(m2), cv(mTrade), cv(mArrest),
+             cv(mArea), cv(mDensity),
+             cv(m3), cv(m3Wser), cv(m3Opt), cv(m3Opt2), cv(m3O2), 
+             cv(m3O2_p), cv(mT), cv(mR))
+cvC <- cvE[1,]/max(cvE[1,])
+plot(cvC)
+cvB7 <- cbind(cv(m3Wser), cv(m3Opt), cv(m3Opt2), cv(m3O2), 
+              cv(m3O2_p), cv(mT), cv(mR))
+cvB7r<-cvB7[1,]/max(cvB7[1,]) 
+cvB7r
+plot(cvB7r)
 
-m4Wfir <- glm(normY~(1+prbarr+region+area+density+area:density+wfir), data = crimes.data, family = poisson)
-m4Wfir2 <- glm(normY~(1+prbarr+region+area+density+area:density+wfir), data = crimes.data, family = binomial)
-BIC(m4Wfir, m4Wfir2)
-
-# single models #
-mPrbarr <- glm(normY~(1+prbarr), data = crimes.data)
-mPrbpris <- glm(normY~(1+prbpris), data = crimes.data)
-mPolpc <- glm(normY~(1+prbpris), data = crimes.data)
-mDensity <- glm(normY~(1+density), data = crimes.data)
-mArea <- glm(normY~(1+area), data = crimes.data)
-mTaxpc <- glm(normY~(1+taxpc), data = crimes.data)
-mRegion <- glm(normY~(1+region), data = crimes.data)
-mPctmin <- glm(normY~(1+pctmin), data = crimes.data)
-mPctymale <- glm(normY~(1+pctymale), data = crimes.data)
-mWcon <- glm(normY~(1+wcon), data = crimes.data)
-mWsta <- glm(normY~(1+wsta), data = crimes.data)
-mWser <- glm(normY~(1+wser), data = crimes.data)
-mWtrd <- glm(normY~(1+wtrd), data = crimes.data)
-mWfir <- glm(normY~(1+wfir), data = crimes.data)
-allA <- AIC(mPrbarr, mPrbpris, mPolpc, mDensity, mArea, 
-           mTaxpc, mRegion, mPctmin, mPctymale, mWcon, mWsta, mWser, mWtrd, mWfir)
-allA
-plot(allA$AIC)
-
-allB <- BIC(mPrbarr, mPrbpris, mPolpc, mDensity, mArea, 
-            mTaxpc, mRegion, mPctmin, mPctymale, mWcon, mWsta, mWser, mWtrd, mWfir)
-allB
-plot(allB$BIC)
-
-mLohn <- glm(normY~(1+wcon+wsta+wser+wtrd+wfir), data = crimes.data)
-plot(mLohn, which = 1)
-AIC(mLohn)
-BIC(mLohn)
-anova(mLohn)
-step(mLohn, ~(1+wcon+wsta+wser+wtrd+wfir))
-
-m5 <- glm(normY~(1+prbarr+region+area+density+area:density+wcon+wsta+wser+wtrd+wfir), data = crimes.data, family = binomial)
-plot(m5, which = 1)
-AIC(m5)
-BIC(m5)
-anova(m5)
-summary(m5)
-
-m5T <- glm(normY~(1+prbarr+region+area+density+wcon+wsta+wser+wtrd+wfir), data = crimes.data, family = binomial)
-AIC(m5T)
-BIC(m5T)
-anova(m5T)
-summary(m5T)
-coef(m5T)
-
-mRegionI <- glm(crimes ~ density + prbarr:region + prbpris:region + prbpris:region
-                         + prbpris:region + polpc:region + density:region 
-                         + area:region + taxpc:region + region:pctmin 
-                         + region:pctymale + region:wcon, 
-                data = crimes.data)
-
-aics <- AIC(mPrbarr, mPrbpris, mPolpc, mDensity, mArea, 
-            mTaxpc, mRegion, mPctmin, mPctymale, 
-            mWcon, mWsta, mWser, mWtrd, mWfir, 
-            mLohn, m5, m5T)
+########## beliebtestes modell in diesem ansatz: mR
 
 
-plot(aics$AIC)
-cvs <- cbind(cv(mPrbarr), cv(mPrbpris), cv(mPolpc), cv(mDensity), cv(mArea),
-             cv(mTaxpc), cv(mRegion), cv(mPctmin), cv(mPctymale), 
-             cv(mWcon), cv(mWsta), cv(mWser), cv(mWtrd), cv(mWfir), 
-             cv(mLohn), cv(m5), cv(m5T)) 
-plot(order(cvs[1,]))
-order(cvs[1,])
-plot(order(aics$AIC))
-order(aics$AIC)
