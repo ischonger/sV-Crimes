@@ -57,24 +57,37 @@ points(pseudo.data1, col = "red")
 test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
   set.seed(seed)
   
-  sC <- sample(crimes.data$crimes, amount)
   if(theta == -1) {
-    sP <- rpois(90, lambda = predict(model, type = "response"))
+    sP <- rpois(amount, lambda = predict(model, type = "response"))
   } else {
-    sP <- rnegbin(90, mu = predict(mStep, type = "response"),
+    sP <- rnegbin(amount, mu = predict(mStep, type = "response"),
                   theta = theta)
   }
+  sP <- sP[!is.na(sP)]
+  sC <- sample(crimes.data$crimes, length(sP))
     
   plot(sC)
   points(sP, col = "blue")
+  i <- 3
+  for(c in m3O2$coefficients[2:length(m3O2$coefficients)]) {
+    abline(model$coefficients[[1]], c, col = i)
+    i <- i+1
+  }
+  #abline(model$coefficients[[1]], model$coefficients[[2]], col = "red", pch = 16)
   
   dist <- sC-sP
-  dist <- dist[!is.na(dist)]
   dist
-  median(dist)
+  print(median(dist))
   
-  m <- model.matrix(model)
-  m
+  tm <- cbind(rep(1,amount), sP)
+  am <- cbind(rep(1,amount), sC)
+  c  <- cov(tm, am)
+  print(c)
+  
+  #"deviance: "
+  #deviance(model)
+  
+  print(cor(tm, am))
 }
 test(seed = 6153134)
 test(seed = 2165464, model = m3O2)
@@ -85,6 +98,7 @@ test(seed = 6546512, model = mStepO)
 test(seed = 6546512, model = m3O2, theta = -1)
 test(seed = 6546512, model = mStepO, theta = 0.6289)
 # -114.0778
+test(seed = 6546512, model = m3O2, theta = 0.6289)
 
 mDensity <- glm(crimes~density, data = crimes.data)
 test(seed = 6546512, model = mDensity, theta = 0.54)
