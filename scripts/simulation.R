@@ -1,4 +1,4 @@
-m.simple <- glm(crimes~density, data = crimes.data)
+m.simple <- glm.nb(crimes~density, data = crimes.data)
 m.matrix <- model.matrix(m.simple, data = crimes.data)
 head(m.matrix)
 plot(crimes.data$crimes~crimes.data$density)
@@ -19,4 +19,4 @@ y <- crimes.data$crimes
 plot(x,y)
 abline(beta.hat, col = 2, lwd = 3)
 
-install.packages("stats")
+#install.packages("stats")

@@ -1,5 +1,5 @@
 ### Pseudos ###
-#mPseudo5 <- glm(normY ~ density, data = pseudo.data)
+#mPseudo5 <- glm.nb(normY ~ density, data = pseudo.data)
 require(MASS)
 pseudo.data1 <- rnegbin(90, mu = predict(mStep, type = "response"),
                        theta = 0.7566)
@@ -89,21 +89,25 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
   
   print(cor(tm, am))
 }
-test(seed = 6153134)
-test(seed = 2165464, model = m3O2)
-test(seed = 6548, model = m3O2)
-test(seed = 6548, model = mStepO)
-test(seed = 6546512, model = m3O2)
-test(seed = 6546512, model = mStepO)
-test(seed = 6546512, model = m3O2, theta = -1)
-test(seed = 6546512, model = mStepO, theta = 0.6289)
-# -114.0778
-test(seed = 6546512, model = m3O2, theta = 0.6289)
+test(seed = 6153134) #-431
+test(seed = 2165464, model = m2) #460 ## m2 aus winners.R!
+test(seed = 6548, model = m2) #566.5
+test(seed = 6548, model = m1) #648.5
+test(seed = 6546512, model = m2) #-94.5
+test(seed = 6546512, model = m1) #207
+test(seed = 6546512, model = m2, theta = -1) #-94.5
+test(seed = 6546512, model = m1, theta = 0.6289) #742
+# 742
+test(seed = 6546512, model = m2, theta = 0.6289)
 
-mDensity <- glm(crimes~density, data = crimes.data)
+mDensity <- glm.nb(crimes~density, data = crimes.data)
 test(seed = 6546512, model = mDensity, theta = 0.54)
 test(seed = 6546512, model = mDensity, theta = -1)
 
 test(model = mDensity)
 deviance(m3O2)
 deviance(mDensity)
+
+test(seed = 74158352, model = m2, theta = 3.416778004)
+# immer das theta aus dem modell nehmen!
+# gibt gute werte.

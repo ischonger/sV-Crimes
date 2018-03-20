@@ -45,15 +45,18 @@ corV <- c(-0.2994541, -0.008989058, -0.008989058, 0.9091849, 0.1170337, 0.200248
           0.03044025, 0.1690798, 0.4683103, 0.3094517, 0.4995101, 0.623725, 0.5460246)
 plot(corV)
 tail(sort(corV), 5)
-mCor <- glm(formula = crimes~(density+wser+wfir+wtrd+wcon), data = crimes.data)
+mCor <- glm.nb(formula = crimes~(density+wser+wfir+wtrd+pctymale), data = crimes.data)
 cv(mCor); AIC(mCor)
-step(mCor, ~(density+wser+wfir+wtrd+wcon)^2)
-mCorO <- glm(formula = crimes ~ density + wser + wfir + wtrd + density:wfir + 
-               density:wser + density:wtrd, data = crimes.data)
-cv(mCor); cv(mCorO); cv(m3O2)
-AIC(mCor, mCorO)
+step(mCor, ~(density+wser+wfir+wtrd+pctymale)^2)
+mCorO <- glm.nb(formula = crimes ~ density + wser + wfir + wtrd + pctymale + 
+                  wfir:wtrd + density:wser, data = crimes.data, init.theta = 3.468214965, 
+                link = log)
+cv(mCor); cv(mCorO); cv(mR)
+AIC(mCor, mCorO, m3Opt)
 # ergebnis ähnlich gut wie das aus versuch 1.
 
+######### bestes ergebnis: mCor
+mCor
 
 
 # for covariance matrix:
