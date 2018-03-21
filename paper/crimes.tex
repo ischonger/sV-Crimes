@@ -51,13 +51,13 @@ a4paper,     %% defines the paper size: a4paper (default), a5paper, letterpaper,
 
 %%% babel: language set (can cause some conflicts with package ngerman)
 %%%        use it only for multi-language documents or non-german ones
-%\usepackage[ngerman]{babel}
+\usepackage[ngerman]{babel}
 
 %%% inputenc: coding of german special characters
 \usepackage[latin1]{inputenc}
 
 %%% fontenc, ae, aecompl: coding of characters in PDF documents
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 \usepackage{ae,aecompl}
 
 %%%
@@ -179,15 +179,14 @@ a4paper,     %% defines the paper size: a4paper (default), a5paper, letterpaper,
 %%% define the titlepage
 %%%
 
-% \subject{}   %% subject which appears above titlehead
-% \titlehead{} %% special heading for the titlepage
+\subject{statistische Verfahren WS 2017/2018}   %% subject which appears above titlehead
 
 %%% title
-\title{FIXXME}
+\title{Projekt 7 - Kriminalit\"at}
 
 %%% author(s)
 \author{Reda Ihtassine (Matrikelnummer) \and
-Ingo Schäfer (Matrikelnummer)}
+Ingo Sch\"afer (165 220)}
 
 %%% date
 \date{Jena, am \today{}}
@@ -281,7 +280,9 @@ Ingo Schäfer (Matrikelnummer)}
 %%% begin main document
 %%% structure: \section \subsection \subsubsection \paragraph \subparagraph
 %%%
+
 \section{Einleitung}
+\citep*[p.~12]{baltagli:1}\\
 \input{chapters/introduction}
 \newpage
 
@@ -298,7 +299,8 @@ Ingo Schäfer (Matrikelnummer)}
 \newpage
 
 \appendix
-%\bibliography{sources.bib}
+\bibliographystyle{alpha}
+\bibliography{chapters/sources.bib}
 
 
 

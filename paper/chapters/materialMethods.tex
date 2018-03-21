@@ -1,0 +1,20 @@
+\subsection{Material}
+Der Datensatz besteht aus einer .csv-Datei.
+In ihr sind die unterschiedlichen 90 Counties von North Carolina zeilenweise aufgelistet.
+Die Spalten sind (m\"ogliche) Eingeschaftsvektoren.
+In der Arbeit von Baltagli \footnote{1} werden noch einige Eigenschaften mehr aufgelistet, als in dieser Arbeit betrachtet wurden. Daher hier eine kleine \"Ubersicht über alle m\"ogichen Einflussgr\"o\ss{}en: \\
+Alle Eigenschaftsvektoren sind logarithmisch mit Ausnahme der Region und der Zeit.
+Die erste Spalte beinhaltet die Zielgr\"o\ss{}e \textit{crimes}, also die Anzahl aller Straftaten in dem jeweiligen County \"uber den Zeitraum von 1981-1987. \\
+Weiterhin wurde die Arrestwahrscheinlichkeit $P_A$ hinzugef\"ugt. Sie berechnet sich aus $P_A = \frac{\text{Arrestierungen}}{text{Delikte}}$. Sie wird abgek\"urzt \textit{prbarr} geschrieben.
+Daneben gibt es auch die \"Uberzeugungswahrschleinlichkeit $P_C$. Sie gibt das Verh\"altnis zwischen tats\"achlichen Arrestierungen und den gestandenen Straftaten an und wird daher berechnet mit $P_P = \frac{\text{Anzahl tats\"achlicher Arrestierungen}}{\text{Anzahl gestandener Straftaten}}$. Sie wird bezeichnet als \textit{prbpris}. \\
+Eine weitere Eigenschaft ist die Fähigkeit des Countys ein Verbrechen auch zu ermitteln. In dem Datensatz spiegelt sich dies in der Variable \textit{polpc} wieder. Sie gibt das Polizei-pro-Kopf-Verhältnis an. \\
+Ein weiteres wichtiges Merkmal ist die Bev\"olkerungsdichte (\textit{density}). Sie stellt das Verhältnis $frac{\text{anzahl bev\"olkerung}}{\text{Fl\"ache des Countys in square miles}}$ dar. \\
+Darüberhinaus wird das Verh\"altnis von Minderheiten zu der Gesamtanzahl Einwohner in der Variable \textit{pctmin} ausgedrückt. \\
+\textit{pctymale} ist eine Eigenschaft, die den Anteil der jungen m\"annlichen Bev\"olkerung zur Gesamtbev\"olkerung anzeigt. \\
+Die letzten f\"unf Variablen geben den durschnittlichen Bruttolohn in den Bereichen Baugewerbe (\textit{wcon}, Staatsangestelle (\textit{wsta}), Dienstleistungssektor (\textit{wser}), Handel (\textit{wtrd}) und Bankgesch\"aften (textit{wfir}) wieder. \\
+
+
+\subsection{Methoden}
+
+
+
