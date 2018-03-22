@@ -34,6 +34,8 @@ points(pseudo.data1, col = "red")
 test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
   set.seed(seed)
   
+  # decide whether to use rnegbin or rpois distribution for computing pseudo-values (sP)
+  # and get random values from crimes.data$crimes
   if(theta == -1) {
     sP <- rpois(amount, lambda = predict(model, type = "response"))
   } else {
@@ -41,9 +43,12 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
                   theta = theta)
   }
   sP <- sP[!is.na(sP)]
-  sC <- sample(crimes.data$crimes, length(sP))
+  #sC <- sample(crimes.data$crimes, length(sP))
+  sC <- crimes.data[sample(1:90, amount), ]
   
-  plot(sC)
+  # plot real data from crimes.data$crimes in black and pseudos in blue
+  # and draw linear function per coefficients 
+  plot(sC$crimes)
   points(sP, col = "blue")
   i <- 3
   for(c in m3O2$coefficients[2:length(m3O2$coefficients)]) {
@@ -51,21 +56,31 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
     i <- i+1
   }
   
+  # print median distance values between the real and the estimated value
   dist <- sC-sP
   dist
-  print(median(dist))
+  print(abs(median(dist)))
   
+  ### ???? brauch ich das wirklich?, das geht doch nur für modelle mit einem eingabevektor
   tm <- cbind(rep(1,amount), sP)
   am <- cbind(rep(1,amount), sC)
   c  <- cov(tm, am)
   c <- cov(sP, sC)
   print(c)
   
+  # print correlation coefficient
   print(cor(tm, am))
   
-  print()
+  # compute covariance matrix
+  #acm <- vcov(model)
+  mv <- c()
+  sC.matrix <- matrix(unlist(sC), ncol = 16, byrow = FALSE)
+  for(col in sC) {
+    append(mv, mean(col))
+  
+  
+  sC_mean <- matrix(data=1, nrow=n) %*% cbind(mean(a),mean(b),mean(c),mean(d),mean(e)) 
 }
-
 
 x <- cbind(1, crimes.data$crimes)
 head(x)
