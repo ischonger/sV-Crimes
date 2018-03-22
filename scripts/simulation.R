@@ -58,10 +58,36 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
   tm <- cbind(rep(1,amount), sP)
   am <- cbind(rep(1,amount), sC)
   c  <- cov(tm, am)
+  c <- cov(sP, sC)
   print(c)
   
   print(cor(tm, am))
+  
+  print()
 }
+
+
+x <- cbind(1, crimes.data$crimes)
+head(x)
+
+beta.hat <- solve(t(x) %*% x) %*% t(x) %*% crimes.data$crimes
+beta.hat
+
+x <- crimes.data$density
+y <- crimes.data$crimes
+plot(x,y)
+abline(beta.hat, col = 2, lwd = 3)
+abline(c(mDensity$coefficients[1], mDensity$coefficients[2]), col = 3, lwd = 3)
+
+## deviance:
+# zitat faustregel:
+# ein modell M ist ein geeignetes modell, falls die Devienz von M so groß ist, wie die ugf
+# anzahl der parameter von M
+dt <- function(model) {
+  deviance(model) - abs(model$rank)
+}
+dt(m1); dt(m2); dt(m3); dt(m4); dt(m5)
+
 test(seed = 6153134) #-431
 test(seed = 2165464, model = m2) #460 ## m2 aus winners.R!
 test(seed = 6548, model = m2) #566.5
