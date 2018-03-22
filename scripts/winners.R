@@ -1,4 +1,4 @@
-#require(MASS)
+require(MASS)
 # die drei 'siegermodelle':
 
 ## durch probieren
