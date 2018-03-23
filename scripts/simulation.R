@@ -123,7 +123,7 @@ test(seed = 74158352, model = m2, theta = 3.416778004)
 
 mDensity <- glm.nb(crimes~density, data = crimes.data)
 
-simulation <- function(model = mDensity, maxAmount = 30, repeats = 20) {
+simulation <- function(model = mDensity, amount = 30, repeats = 20) {
   # wähle stichprobenumfang
   c <- crimes.data[sample(1:amount), ]
   # baue design-matrix
