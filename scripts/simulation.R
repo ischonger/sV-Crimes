@@ -1,5 +1,7 @@
 ### Pseudos ###
 require(MASS)
+library(nlmeODE)
+require(nlmeODE)
 # models from winners.R
 
 pseudo.data1 <- rnegbin(90, mu = predict(m1, type = "response"),
@@ -31,7 +33,7 @@ points(pseudo.data1, col = "red")
 ### wähle randomisiert 30 elemente aus crimes.data$crimes aus 
 ### und vergleiche diese mit 30 randomisierten zufallszahlen von rpois(), wenn theta = -1
 ### oder rnegbin(), wenn theta >= 0
-test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
+test <- function(seed = 1234, amount = 30, model = m1, theta = -1) {
   set.seed(seed)
   
   # decide whether to use rnegbin or rpois distribution for computing pseudo-values (sP)
@@ -40,7 +42,7 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
     sP <- rpois(amount, lambda = predict(model, type = "response"))
   } else {
     sP <- rnegbin(amount, mu = predict(model, type = "response"),
-                  theta = theta)
+                  theta = 2.103304731)
   }
   sP <- sP[!is.na(sP)]
   #sC <- sample(crimes.data$crimes, length(sP))
@@ -51,7 +53,7 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
   plot(sC$crimes)
   points(sP, col = "blue")
   i <- 3
-  for(c in m3O2$coefficients[2:length(m3O2$coefficients)]) {
+  for(c in model$coefficients[2:length(model$coefficients)]) {
     abline(model$coefficients[[1]], c, col = i)
     i <- i+1
   }
@@ -61,25 +63,14 @@ test <- function(seed = 1234, amount = 30, model = mStepO, theta = -1) {
   dist
   print(abs(median(dist)))
   
-  ### ???? brauch ich das wirklich?, das geht doch nur für modelle mit einem eingabevektor
-  tm <- cbind(rep(1,amount), sP)
-  am <- cbind(rep(1,amount), sC)
-  c  <- cov(tm, am)
-  c <- cov(sP, sC)
-  print(c)
   
   # print correlation coefficient
   print(cor(tm, am))
   
   # compute covariance matrix
-  #acm <- vcov(model)
-  mv <- c()
-  sC.matrix <- matrix(unlist(sC), ncol = 16, byrow = FALSE)
-  for(col in sC) {
-    append(mv, mean(col))
-  
-  
-  sC_mean <- matrix(data=1, nrow=n) %*% cbind(mean(a),mean(b),mean(c),mean(d),mean(e)) 
+  sC.matrix <- matrix(unlist(sC), ncol = 16, byrow = FALSE) # sC as a matrix
+  sC.tcov <- cov(sC.matrix)
+  sC.acov <- vcov(mDensity)
 }
 
 x <- cbind(1, crimes.data$crimes)
@@ -87,6 +78,9 @@ head(x)
 
 beta.hat <- solve(t(x) %*% x) %*% t(x) %*% crimes.data$crimes
 beta.hat
+
+plot(crimes.data$crimes)
+abline(beta.hat)
 
 x <- crimes.data$density
 y <- crimes.data$crimes
@@ -125,3 +119,25 @@ deviance(mDensity)
 test(seed = 74158352, model = m2, theta = 3.416778004)
 # immer das theta aus dem modell nehmen!
 # gibt gute werte.
+
+
+mDensity <- glm.nb(crimes~density, data = crimes.data)
+
+simulation <- function(model = mDensity, maxAmount = 30, repeats = 20) {
+  # wähle stichprobenumfang
+  c <- crimes.data[sample(1:amount), ]
+  # baue design-matrix
+  c.dm <- data.frame(cbind(c$crimes, c$density))
+  colnames(c.dm) <- c("crimes", "density")
+  
+  # simuliere mehrfache pseudobeobachtungen
+  betas <- matrix(ncol = 2, nrow = repeats); colnames(betas) <- c("beta0.hat", "beta1.hat")
+  for(i in 1:repeats) {
+    c.tdm <- c.dm[sample(1:dim(c.dm)[1],sample(5:dim(c.dm)[1])), ] # test design-matrix
+    m <- glm.nb(crimes~density, data = c.tdm)
+    betas[i,] <- m$coefficients
+    p <- rnegbin(amount, mu = predict(m, type = "response"), theta = m$call$init.theta)
+  }
+  var(betas)
+  cov(betas)
+}
