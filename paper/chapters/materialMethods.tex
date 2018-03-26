@@ -15,6 +15,81 @@ Die letzten f\"unf Variablen geben den durschnittlichen Bruttolohn in den Bereic
 
 
 \subsection{Methoden}
+Um ein geeignetes Modell aus den oben beschriebenen Merkmalen zu finden, wurden f\"unf unterschiedliche Herangehensweisen vorgeschlagen, um ein Modell zu finden, das möglichst geringe Fehler aufweist.
+\begin{itemize}
+	\item heuristische Herangehensweise (ausprobieren)
+	\item Vergleich aller Modelle mit nur einem Merkmal
+	\item Verwendung von step() und anschließende Minimierung des Modells
+	\item strukturierte Suche nach einem geeigneten Modell
+	\item Verwendung von cor()
+\end{itemize}
+Am Ende einer jeden Herangehensweise wurde ein bestes Modell vorgschlagen. Diese wurden dann anschließend miteinander verglichen, um ein bestmögliches Modell zu bestimmen.
+\par\smallskip
 
+\noindent
+Haupts\"achlich wurden zwei G\"utekriterien verwendet.
+\par\smallskip
 
+\noindent
+Zum einen \textit{Akaikes Information Criterion} (AIC), welches die logarithmische Fehlerabweichung des Sch\"atzers mit der Anzahl der verwendeten Merkmale bestraft. \\
+\begin{equation}
+\text{AIC} := -2*ln(\underline{\hat{\Theta}}_n) + 2p
+\end{equation}  
+AIC spiegelt den Kompromiss zwischen Verbesserung der Modellanpassung durch erhöhte Parameteranzahl und erhöhte Ungenauigkeit durch Schätzung vieler Parameter wieder. \\
+In einigen F\"allen wurde auch die \textit{Devienz} betrachtet, um die G\"ute mehrerer Modelle miteinander zu vergleichen.
+Hier geht man von einem saturierten Modell aus. Dies ist das komplexeste Modell f\"ur einen Datensatz, dass durch Erh\"ohung der Parameterzahl erzeugt werden kann. In vielen F\"allen hat das saturierte Modell daher so viele Parameter wie Beobachtungen. Falls Einflusvektoren mehrfach vorkommen, besitzt das saturierte Modell weniger Parameter. Das ist typischerweise der Fall f\"ur Experimente mit qualitativen Einflussgr\"o\ss{}en. \\
+Hier wird die Likelihood-Quotienten-Statistik zum Vergleich eines Modells $M$ mit dem saturierten Modell 
+\begin{equation}
+T(\underline{Y}) = 2(l_{\text{saturiert}} - l_M)
+\end{equation}
+betrachtet. \\
+Die Likelihood-Quotienten-Statistik ist asymptotisch  $\mathcal{X}^2$ - verteilt. Dabei ist r die Differenz der Parameterzahlen. Deswegen funktioniert hier der Likelihood-Quotienten-Test nicht, da f\"ur $n \rightarrow \infty$ die Anzahl der Freiheitsgrade auch typischerweise unbeschr\"ankt w\"achst. \\
+Die Gr\"o\ss{}e 
+\begin{equation}
+D(M) = 2(l_{\text{saturiert}} - l_M)
+\end{equation}
+hei\ss{}t Devienz des Modells $M$. \\
+Dabei ist zu beachten, dass ein Modell $M$ ein geeignetes Modell ist, falls die Devienz von $M$ ungef\"ahr so gro\ss{} ist wie die ungef\"ahre Anzahl Parameter von $M$. \\
+\begin{equation}
+D(M) \approx n - |M|
+\end{equation}
+\par\medskip
 
+Als anderes G\"utekriterium wurde das Quadrat der erwarteten Fehlerabweichungen (\textit{SPSE}) im Kreuzvalidierungsverfahren berechnet. \\
+Dazu wurde der gesamte ausgew\"ahlte Datensatz in einen Trainings- und einen Testdatensatz aufgeteilt. Das "beste Modell" ist dasjenige, dass im Mittel den kleinsten gesch\"atzten erwarteten Prognosefehler liefert.
+Dabei wird typischerweise eine l-fache Kreuzvalidierung durchgef\"uhrt: \\
+Es gibt einen Testdatensatz $I = {1...n}$. Dieser wird in l etwa gleichgro\ss{}e Indexmengen $I_1, ..., I_l$ zerlegt. \\
+In jedem j-ten Schritt wird ein $I_j$ als Testdatensatz gew\"ahlt. Alle anderen Indexmengen bilden den Trainingsdatensatz. \\
+Nun wird der erwartete Prognosefehler gesch\"atzt: \\
+\begin{equation}
+\sum_{i \in I_j} (y_i - \underline{x}_i^{(M)^T} \underline{\hat{\beta}}^{(m-j)}})^2 = \hat{SPSE}_j^{(M)}
+\end{equation}
+% TODO: wie wird in Formeln das Dach und UNterstrich gesetzt?
+Dabei ist $\underline{\hat{\beta}}^{(m-j)}$ die auf $I/I_j$ basierende Sch\"atzung. \\
+Zuletzt werden alle Teilsch\"atzungen zu einer Sch\"atzung f\"ur SPSE zusammen kombiniert: \\
+\begin{equation} % TODO: hier auch dach!
+\hat{SPSE}^{(M)} := \sum_{j=1}^l (\hat{SPSE}_j^{(M)})
+\end{equation}
+Zu bemerken ist, dass jede Beobachtung einmal in einem Testdatensatz verwendet wird. Au\ss{}erdem ist die Abh\"angigkeit von der konkreten Zerlegung nur reduziert, aber nicht verschwunden. Es gibt einen Spezialfall, wenn $l=n$. Das hei\ss{}t, dass der gestamte Testdatensatz in $n$ Teildatens\"atze zerlegt wird. Jede Beobachtung wird mit der Prognose basierend auf $(n-1$ Beobachtungen verglichen. Dies ist auch bekannt als \textit{leave-one-out-cross-validation}. Als Faustregel empfiehlt es sich $l \approx 10$ zu w\"ahlen. \\
+\par\bigskip
+
+In der Simulationsaufgabe des Projektes sollte der Einfluss des Stichprobenumfangs auf die Genauigkeit der Approximation der tats\"achlichen Kovarianzmatrix des Maximum-Likelihood-Sch\"atzers durch die asymptotische Kovarianzmatrix untersucht werden.
+Dazu wurde zun\"achst ein m\"oglichst einfaches wahres Modell angenommen. Anhand dessen wurde aus dem gesamten Datensatz eine beliebig gro\ss{}e Teilmenge $T$ entnommen. Aus den Daten von $T$ wurde dann eine Designmatrix gebildet, die Grundlage f\"ur die darauf folgendenden Generierungen für Pseudozufallszahlen war. Meistens wurde die Gr\"o\ss{}e dieser zu untersuchenden Teilmenge auf 30 gesetzt. (Der gesamte Datensatz umfasst 90 Subjekte.) Jedoch wurden auch andere Gr\"o\ss{}en \"uberpr\"uft. Aus der auf diese Art und Weise gebildeten Designmatrix, wurden nun wiederum unterschiedlich gro\ss{}e Stichproben ausgew\"ahlt und die daraus berechneten $\beta_0$ und $\beta_1$ Werte in einer weiteren Matrix gespeichert. Aus dieser Matrix wurden dann die Varianz und die Kovarianz f\"ur die tats\"achliche Kovarianzmatrix berechnet. \\
+\par\smallskip
+Da
+\begin{equation}
+F^{\frac{T}{2}}(\underline{\hat{\beta}}) (\underline{\hat{\beta}}_n - \underline{\beta})
+\xrightarrow[n \rightarrow \infty]{d}
+N(0,I)
+\end{equation}
+gilt, gilt f\"ur die Approximation von $\underline{\hat{\beta}}_n$ bei festem $n$:
+\begin{equation}
+\underline{\hat{\beta}}_n \approx N(\underline{\beta, I^{-1}(\beta))}
+\end{equation}
+Die Kovarianzmatrix $\mathbb{X}$ ist die inverse Fisher-Matrix $I$. Daher hat $I(\underline{\beta})$ die kanonische Linkfunktion einfachen Gestalts
+\begin{equation}
+I(\underline{\beta}) = \mathbb{X}^T V \mathbb{X}
+\end{equation}
+Dabei ist $V$ eine Diagonalmatrix, welche in der Spur die Varianzen h\"alt.
+Anhand dessen wurde die asymptotische Kovarianzmatrix berechnet.
+Die daraus herausgehenden Resultate wurden dann bei einem kleiner werdenden $n$ auch immer geringer, sodass die Ergebnisse immer in Relation zueinander verglichen wurden. 
