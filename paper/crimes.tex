@@ -185,7 +185,7 @@ a4paper,     %% defines the paper size: a4paper (default), a5paper, letterpaper,
 \title{Projekt 7 - Kriminalit\"at}
 
 %%% author(s)
-\author{Reda Ihtassine (Matrikelnummer) \and
+\author{Reda Ihtassine (155 685) \and
 Ingo Sch\"afer (165 220)}
 
 %%% date
@@ -281,36 +281,25 @@ Ingo Sch\"afer (165 220)}
 %%% structure: \section \subsection \subsubsection \paragraph \subparagraph
 %%%
 
+\label{sec:ein}
 \section{Einleitung}
 \input{chapters/introduction}
 \newpage
 
+\label{sec:mat}
 \section{Material und Methoden}
 \input{chapters/materialMethods}
 \newpage
 
+\label{sec:res}
 \section{Resultate}
 \input{chapters/results}
 \newpage
 
+\label{sec:dis}
 \section{Diskussion}
 \input{chapters/discussion}
 \newpage
-
-\appendix
-\bibliographystyle{alpha}
-\bibliography{chapters/sources.bib}
-
-
-
-
-
-
-
-
-
-
-
 
 
 %%%
@@ -318,7 +307,7 @@ Ingo Sch\"afer (165 220)}
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \appendix  %% include it, if something (bibliography, index, ...) follows below
+\appendix  %% include it, if something (bibliography, index, ...) follows below
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
@@ -326,11 +315,9 @@ Ingo Sch\"afer (165 220)}
 %%%
 %%% available styles: abbrv, acm, alpha, apalike, ieeetr, plain, siam, unsrt
 %%%
-% \bibliographystyle{plain}
+\bibliographystyle{plain}
+\bibliography{chapters/sources}
 
-%%% name of the bibliography file without .bib
-%%% e.g.: literatur.bib -> \bibliography{literatur}
-% \bibliography{FIXXME}
 
 \end{document}
 %%% }}}
