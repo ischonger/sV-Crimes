@@ -1,3 +1,10 @@
-Dem Projekt liegen Kriminalitätsdaten des US-amerikanischem Bundesstaats North Carolina zugrunde, welche in dem Zeitraum von 1981 bsi 1987 erhoben wurden.
-Diese Daten wurden schon mehrfach mit Hilfe von verschiedenen Methoden (Hausmann, 2SLS, ...) von Anderen untersucht \footnote{1}. \\
-Diese Arbeit versucht ein geeignetes allgemeines lineares Modell zu erarbeiten, mit dem gute Abschätzungen erzielt werden können.
+Statistiken sind ein wichtiges Mittel, um die Werte und Trends der Kriminalitä\"at zu schätzen, die Kosten f\"ur Auswirkungen auf die Gesellschaft zu bewerten und dar\"uber die Strafverfolgungsans\"atze zu optimieren, um die Kriminalit\"at im folgenden zu verhindern. 
+Um ein \"okonomisches Kriminalit\"atsmodell zu sch\"atzen, k\"onnen die Eigenschaften der Counties nicht ignoriert werden. Diesem Projekt liegen solche Daten des US-amerikanischem Bundesstaats North Carolina zugrunde, welche in dem Zeitraum von 1981 bis 1987 erhoben wurden. Sie wurden u.a. in der Arbeit von Baltagli
+(\citep{baltagli:1}) ver\"offentlicht. \\
+ 
+Der \"ubliche Hausman-Test, der auf dem Unterschied zwischen fixierten und zuf\"alligen Effekten basiert, kann zu einer irref\"uhrenden Inferenz f\"uhren, wenn es endogene Regressoren des konventionellen simultanen Gleichungstyps gibt\footnote{Vgl.: Badi H. Baltagli, estimating an economic model of crime using panel data from North Carolina, journal of applied econometrics, S.: 543}.
+Daher ist das Ziel dieser Projektarbeit ein geeignetes statistisches Modell f\"ur die Zahl der Verbrechen mithilfe von anderen Kriterien zu entwickeln. Dabei betrachten wir insbesondere die qualitative Einflussgr\"o\ss{}e \textit{region} und deren m\"ogliche Wechselwirkungen mit anderen Pr\"adiktoren. 
+Der zweite Teil dieser Arbeit besch\"aftigt sich mit der Untersuchung des Einflusses des Stichprobenumfangs auf die Genauigkeit der Approximation der tats\"achlichen Kovarianzmatrix des Maximum-Likelihood-
+Sch\"atzers durch die asymptotische Kovarianzmatrix. \\
+
+Diese Arbeit gliedert sich in drei Kapitel: Im Kapitel Material und Methoden wird zun\"achst das Material aus der Datei \textit{crimes.csv} und die verwendeten Methoden beschrieben. Im Kapitel Resultate werden die numerischen Ergebnisse vorgestellt. Im letzten Kapitel erfolgt die Diskussion und Interpretation der Ergebnisse hinsichtlich der Aufgabenstellung und der praktischen Anwendbarkeit der ausgew\"ahlten Modelle.
