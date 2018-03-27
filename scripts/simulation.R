@@ -2,6 +2,7 @@
 require(MASS)
 library(nlmeODE)
 require(nlmeODE)
+library(numDeriv)
 # models from winners.R
 
 pseudo.data1 <- rnegbin(90, mu = predict(m1, type = "response"),
@@ -122,8 +123,11 @@ test(seed = 74158352, model = m2, theta = 3.416778004)
 
 
 mDensity <- glm.nb(crimes~density, data = crimes.data)
+# y = 6.38743*density+ 0.00756
 
-simulation <- function(model = mDensity, amount = 30, repeats = 20) {
+simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031409) {
+  set.seed(seed)
+  
   # wähle stichprobenumfang
   c <- crimes.data[sample(1:amount), ]
   # baue design-matrix
@@ -133,11 +137,82 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20) {
   # simuliere mehrfache pseudobeobachtungen
   betas <- matrix(ncol = 2, nrow = repeats); colnames(betas) <- c("beta0.hat", "beta1.hat")
   for(i in 1:repeats) {
-    c.tdm <- c.dm[sample(1:dim(c.dm)[1],sample(5:dim(c.dm)[1])), ] # test design-matrix
+    c.tdm <- c.dm[sample(1:dim(c.dm)[1],sample(3:dim(c.dm)[1])), ] # test design-matrix
     m <- glm.nb(crimes~density, data = c.tdm)
     betas[i,] <- m$coefficients
-    p <- rnegbin(amount, mu = predict(m, type = "response"), theta = m$call$init.theta)
+    p <- rnegbin(dim(c.tdm)[1], mu = predict(m, type = "response"), theta = m$call$init.theta)
+    plot(c.tdm$density, p)
+    points(c.tdm$density, c.tdm$crimes, col = 2)
   }
   var(betas)
-  cov(betas)
+  c.cov <- cov(betas)
+  
+  # berechne asymptotische kovarianzmatrix
+  ## berechne Designmatrix X: X = cbind(beta0, beta1)
+  betas.dm  <- cbind(c.cov[,1], c.cov[,2])
+  ## berechne fisher-informationsmatrix: I(beta) = X^t V X, X ist Designmatrix, V ist diag(Vars)
+  betas.dvm <- c(var(betas)[1,1], var(betas)[2,2]) # diagonale varianz-matrix
+  betas.I  <- t(betas.dm)%*%diag(betas.dvm)%*%betas.dm
+  
+  
+  md <- abs(as.matrix(c.cov) - betas.I) # matrix deviation
+  #print(md)
+  return(cbind(md[1,1], md[2,2]))
 }
+
+
+
+# compare vergleicht zwei simulationen miteinander
+# simulation() gibt den betrag des abstandes von 
+# tatsächlicher kovarianzmatrix - asymptotischer kovarianzmatrix
+# jeweils für beta0 und für beta1 aus
+# compare vergleicht diese simulationen loops mal (default = 10)
+# und gibt das verhältnis von beta0 aus erster und zweiter simulation
+# sowie das verhältnis von beta1 aus erster und zweiter simulation aus
+# ist eine der zahlen also größer als 1, so hat die erste simulation 
+# die größeren abstandswerte.
+# also ist die erste simulation besser,
+# ist eine der zahlen kleiner als 1, so ist die zweite simulation besser
+# credentials of simulation 1, credentials of simulation 2
+compare <- function(model1 = mDensity, amount1 = 30, repeats1 = 20, 
+                    model2 = mDensity, amount2 = 30, repeats2 = 20,
+                    loops = 10) { 
+  rm <- matrix(ncol = 4, nrow = loops)
+  for(i in 1:loops) {
+    betas1 <- simulation(model1, amount1, repeats1, seed = sample(1:1000, 1))
+    Sys.sleep(2)
+    betas2 <- simulation(model2, amount2, repeats2, seed = sample(1:1000, 1))
+    rm[i,1] <- betas1[1]
+    rm[i,2] <- betas1[2]
+    rm[i,3] <- betas2[1]
+    rm[i,4] <- betas2[2]
+  }
+  
+  return(c(mean(rm[,3]) / mean(rm[,1]),  mean(rm[,4]) / mean(rm[,2])))
+}
+
+# results:
+compare(repeats1 = 1, amount1 = 3, repeats2 = 100, amount2 = 90)
+# 0.09919219 0.03302115
+# 1.292789 3.225211
+# 1.271198 4.022766
+# 
+## => die werte aus der ersten simulation sind wesentlich größer als die aus der zweiten
+## das entspricht den erwartungen -> wenn weniger wiederholungen angeboten werden, müsste 
+## der relative größenunterschied zwischen den betas aus den unterschiedlichen cov-matrizen
+## größer sein, da ja nicht so gut approximiert werden kann, wie wenn die anzahl an wiederholungen
+## und die größe des testdatensatzes wesentlich kleiner ist.
+
+compare(simulation(), simulation())
+## hier wird kein wesentlicher unterschied der beta-verhältnis-werte erwartet
+# 0.0002056119e-04 0.00004563244 ## #hashtag glück
+# 0.0001837114     0.0001022125
+# 0.0004178568     0.0001637638
+rm     <- matrix(nrow = 10, ncol = 2)# result matrix
+for(i in 1:10) {
+  rm[i,] <- compare(simulation(), simulation())
+}
+b0m <- mean(rm[,1])# beta0 mean
+b1m <- mean(rm[,2])# beta1 mean
+b0m
+b1m

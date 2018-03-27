@@ -17,7 +17,7 @@ Die letzten f\"unf Variablen geben den durschnittlichen Bruttolohn in den Bereic
 \subsection{Methoden}
 Um ein geeignetes Modell aus den oben beschriebenen Merkmalen zu finden, wurden f\"unf unterschiedliche Herangehensweisen vorgeschlagen, um ein Modell zu finden, das möglichst geringe Fehler aufweist.
 \begin{itemize}
-	\item heuristische Herangehensweise (ausprobieren)
+	\item explorative Herangehensweise (ausprobieren)
 	\item Vergleich aller Modelle mit nur einem Merkmal
 	\item Verwendung von step() und anschließende Minimierung des Modells
 	\item strukturierte Suche nach einem geeigneten Modell
@@ -35,7 +35,7 @@ Zum einen \textit{Akaikes Information Criterion} (AIC), welches die logarithmisc
 \begin{equation}
 \text{AIC} := -2*ln(\underline{\hat{\Theta}}_n) + 2p
 \end{equation}  
-AIC spiegelt den Kompromiss zwischen Verbesserung der Modellanpassung durch erhöhte Parameteranzahl und erhöhte Ungenauigkeit durch Schätzung vieler Parameter wieder. \\
+AIC spiegelt den Kompromiss zwischen Verbesserung der Modellanpassung durch erhöhte $p$ und erhöhte Ungenauigkeit durch Schätzung vieler Parameter wieder. \\
 In einigen F\"allen wurde auch die \textit{Devienz} betrachtet, um die G\"ute mehrerer Modelle miteinander zu vergleichen.
 Hier geht man von einem saturierten Modell aus. Dies ist das komplexeste Modell f\"ur einen Datensatz, dass durch Erh\"ohung der Parameterzahl erzeugt werden kann. In vielen F\"allen hat das saturierte Modell daher so viele Parameter wie Beobachtungen. Falls Einflusvektoren mehrfach vorkommen, besitzt das saturierte Modell weniger Parameter. Das ist typischerweise der Fall f\"ur Experimente mit qualitativen Einflussgr\"o\ss{}en. \\
 Hier wird die Likelihood-Quotienten-Statistik zum Vergleich eines Modells $M$ mit dem saturierten Modell 
