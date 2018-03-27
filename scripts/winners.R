@@ -41,7 +41,7 @@ plot(aics)
 cvC <- cbind(cv(m1), cv(m2), cv(m3), cv(m4), cv(m5))
 cvC <- cvC/max(cvC)
 min(cvC)
-plot(cvC)
+plot(cvC[1,])
 
 ##### gewinner: #####
 m2

@@ -1,13 +1,40 @@
-1: \\
-Vorgehensweise: \\
- - negative binomialverteilung statt gauß-verteilung, begründug - siehe quelle!
- - 5 unterschiedliche Herangehensweisen um ein geeignetes Modell zu finden, alle kurz erklären
- - besondere Rolle von \textit{region} \\
- - vergleich der modelle funktionsweise knapp erläutern(aic, cross_validation, cor()) \\
- - vorstellen der 5 gewinnermodelle, den gewinner \\
-2: \\
- - beschreibung test()-funktion(ggf funktion einen griffigereren namen geben) \\
- - welche einstellungen erzielen gute ergebnisse? \\
- - einmal mit einfachem modell zeigen: mDensity... (<- warum mDensity?)
- - einmal mit gewinner-modell --> wie gut ist ergebnis? überleitung zu diskussion...
- 
+\subsection{Modellwahl}
+Wie bereits erw\"ahnt, wurden f\"unf unterschiedliche Herangehensweisen betrachtet, um ein geeignetes Modell zu finden.
+
+\paragraph{Wahl der Verteilung}
+negative binomialverteilung statt gauß-verteilung, begründug - siehe quelle!
+
+\label{sec:preg}
+\paragraph{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
+
+\paragraph{Herangehensweisen}
+\subparagraph{explorative Herangehensweise}
+Um ein gutes Gef\"uhl f\"ur die Merkmalsvektoren zu bekommen, wurden zun\"achst einige Modelle ausprobiert und mittels AIC verglichen.
+Damit ein Vergleichswert nach dem Akaike-Ma\ss{} vorhanden war, wurde ein komplettes Modell angenommen, das aus allen vorhandenen Merkmalen besteht. Dieses Modell hei\ss{}t \textit{mAll}. Die entsprechende Formel sieht so aus:
+\begin{equation}
+crimes = prbarr+prbpris+polpc+density+area+taxpc+region+pctmin+pctymale+wcon+wsta+wser+wtrd+wfir
+\end{equation}
+Es wurde bewusst darauf verzichtet in diesem 'gesamten' Modell die Intersections (Wechselwirkungen) der einzelnen Merkmale zu betrachten. Grund daf\"ur ist, dass das Akaike-Ma\ss{} Modelle mit vielen Einflussgr\"o\ss{}en mehr bestraft, als solche die weniger besitzen. Da bei dieser Untersuchung das Akaike-Ma\ss{} das am h\"aufigsten verwendete Kriterium war, sollte also das erste Modell, mit dem die anderen verglichen wurden, nicht einen gro\ss{}en negativen Wert aufweisen, so wie das in diesem Fall der Fall gewesen w\"are. (Der Akaike-Wert des Modells, das alle Merkmale und alle Wechselwirkungen zwischen diesen betrachtet, betr\"agt -3441.465. In diesem Modell gibt es 91 Freiheitsgrade.)
+Die Daten \texttt{crimes.data}, welche der Funktion \texttt{glm.nb(formula, data = crimes.data)} w\"ahrend der gesamten Untersuchung gegeben wurden, wurden nicht ver\"andert. Es handelt sich hierbei immer um den gesamten Datensatz aus der Datei \textit{crimes.csv}.
+
+Im Folgenden wurde bemerkt, dass diese Merkmale durchaus gruppiert betrachtet werden k\"onnen. Daher bestand die erste Idee darin, die unterschiedlichen Gruppierungen je Modell zu betrachten:
+Die ersten beiden Merkmale (\textit{prbarr} und \textit{prbpris}) geben beide Verh\"altnisse zum Anteil aller Straft\"ater in einem County an. Daher wurde ein Modell aus diesen beiden Einflussgr\"o\ss{}en betrachtet.
+\begin{equation}
+crimes = prbarr:prbpris
+\end{equation}
+Die Einflussgr\"o\ss{}en \textit{density} und \textit{area} sind beides r\"aumliche Merkmale. Auch sie wurden in einem Modell zusammengefasst. Wie in \ref{sec:preg}
+% wie ging das nochmal mit den referenzieren auf einen anderen bereich? *seufz...
+
+\subparagraph{Vergleich aller Modelle mit jeweils nur einem Merkmal}
+\subparagraph{Verwendung von step() und anschließende Minimierung des Modells}
+\subparagraph{strukturierte Suche nach einem geeigneten Modell}
+\subparagraph{Verwendung von cor()}
+\subparagraph{Die Gewinnermodelle}
+
+\newpage 
+\subsection{Simulationsaufgabe}
+\paragraph{Beschreibung simulation()}
+\paragraph{Auswertung der Ergebnisse}
+\subparagraph{einfaches Modell: \textit{mDensity}}
+\subparagraph{Ergebnisse mit Gewinnermodell aus der ersten Aufgabe}
+Hier leite ich zur Diskussion \"uber.
