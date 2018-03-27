@@ -174,14 +174,12 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031
 # also ist die erste simulation besser,
 # ist eine der zahlen kleiner als 1, so ist die zweite simulation besser
 # credentials of simulation 1, credentials of simulation 2
-compare <- function(model1 = mDensity, amount1 = 30, repeats1 = 20, 
-                    model2 = mDensity, amount2 = 30, repeats2 = 20,
-                    loops = 10) { 
+compare <- function(loops = 10) { 
   rm <- matrix(ncol = 4, nrow = loops)
   for(i in 1:loops) {
-    betas1 <- simulation(model1, amount1, repeats1, seed = sample(1:1000, 1))
+    betas1 <- simulation(seed = sample(1:100000, 1), amount = 90)
     Sys.sleep(2)
-    betas2 <- simulation(model2, amount2, repeats2, seed = sample(1:1000, 1))
+    betas2 <- simulation(seed = sample(1:100000, 1), amount = 3, repeats = )
     rm[i,1] <- betas1[1]
     rm[i,2] <- betas1[2]
     rm[i,3] <- betas2[1]
@@ -191,8 +189,10 @@ compare <- function(model1 = mDensity, amount1 = 30, repeats1 = 20,
   return(c(mean(rm[,3]) / mean(rm[,1]),  mean(rm[,4]) / mean(rm[,2])))
 }
 
+# 
+
 # results:
-compare(repeats1 = 1, amount1 = 3, repeats2 = 100, amount2 = 90)
+compare(repeats1 = 1, amount1 = 10, repeats2 = 100, amount2 = 90)
 # 0.09919219 0.03302115
 # 1.292789 3.225211
 # 1.271198 4.022766
