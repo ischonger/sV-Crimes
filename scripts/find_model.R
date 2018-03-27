@@ -44,8 +44,8 @@ plot(m1)
 AIC(m0, mAll, m1)
 
 m1Nb <- glm.nb(crimes~1+prbarr:prbpris, data = crimes.data)
-plot(m1)
-AIC(m0, mAll, m1, m1Nb)
+plot(m1Nb)
+AIC(m0, mAll, m1Nb)
 
 
 mAll2 <- glm.nb(crimes~(1+prbarr+prbpris+polpc+density+area+taxpc+region+pctmin+pctymale+wcon+wsta+wser+wtrd+wfir)^2, data = crimes.data)
@@ -57,6 +57,15 @@ add1(m2, prbarr)
 AIC(m0, mAll, mAll2, m1, m2, m2Nb)
 BIC(m0, mAll, mAll2, m1, m2, m2Nb)
 ?AIC
+
+AIC(m0, mAll, m1Nb, m2)
+
+mSpatial1 <- glm.nb(crimes~(density+area), data = crimes.data)
+mSpatial2 <- glm.nb(crimes~(density+area)^2, data = crimes.data)
+mSpatial3 <- glm.nb(crimes~(density+area+region), data = crimes.data)
+mSpatial4 <- glm.nb(crimes~(density+area+region)^2, data = crimes.data)
+AIC(mSpatial1, mSpatial2, mSpatial3, mSpatial4)
+cv(mSpatial1); cv(mSpatial2); cv(mSpatial3); cv(mSpatial4)
 
 mTrade <- glm.nb(crimes~(1+wsta+wser+wtrd+wfir)^2, data = crimes.data)
 AIC(m0, mAll, mAll2, m1, m1Nb, m2, m2Nb, mTrade)
