@@ -56,6 +56,8 @@ add1(m1, scope = ~(1+prbarr+prbpris+polpc+density+area+taxpc)^2)
 m2 <- glm.nb(crimes~(1+prbarr+prbpris)^2, data = crimes.data)
 add1(m2, prbarr)
 AIC(mAll, m1, m2)
+cv(mAll); cv(m1); cv(m2)
+deviance(mAll); deviance(m1); deviance(m2)
 BIC(m0, mAll, m1, m2)
 ?AIC
 
@@ -67,14 +69,17 @@ mSpatial3 <- glm.nb(crimes~(density+area+region), data = crimes.data)
 mSpatial4 <- glm.nb(crimes~(density+area+region)^2, data = crimes.data)
 AIC(mSpatial1, mSpatial2, mSpatial3, mSpatial4)
 cv(mSpatial1); cv(mSpatial2); cv(mSpatial3); cv(mSpatial4)
+deviance(mSpatial1); deviance(mSpatial2); deviance(mSpatial3); deviance(mSpatial4)
 
+mPct <- glm.nb(crimes~(pctmin+pctymale)^2, data = crimes.data)
 mTrade <- glm.nb(crimes~(1+wsta+wser+wtrd+wfir)^2, data = crimes.data)
+AIC(mPct, mTrade)
 AIC(m0, mAll, mAll2, m1, m1Nb, m2, m2Nb, mTrade)
 cv(m0); cv(mAll); cv(m1); cv(m1Nb); cv(m2); cv(m2Nb); cv(mTrade)
 plot(mTrade, which = 1)
 
-plot(crimes.data$crimes, crimes.data$prbarr)
-plot(crimes.data$crimes, crimes.data$prbpris)
+plot(crimes.data$crimes, crimes.data$prbarr, pch = 1, col = "blue", xlab = "crimes", ylab = "probability")
+points(crimes.data$crimes, crimes.data$prbpris, pch = 1, col = "red")
 
 mArrest <- glm.nb(crimes~(1+prbarr), data = crimes.data)
 plot(mArrest, which = 1)

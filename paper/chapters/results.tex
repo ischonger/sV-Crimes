@@ -147,7 +147,8 @@ Modell \textsc{m2} besitzt die Formel \textsc{glm.nb(formula = crimes ~ (1 + prb
 Die AIC-Werte dieser Modelle sind in Tabelle \ref{tab:sfm} einsehbar.
 Wie erwartet sagen hier alle Kriterien \"Ahnliches aus:
 Diese Modelle \textsc{m1} und \textsc{m2} sind sich etwas \"ahnlich, wobei das etwas komplexere Modell \textsc{m2} etwas besser abschneidet.
-Beide sind aber wesentlich schlechter als das komplexe Modell \textsc{mAll}.  
+Beide sind aber wesentlich schlechter als das komplexe Modell \textsc{mAll}. 
+
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrrr}
@@ -162,8 +163,83 @@ mAll & 17.00 & 1432.29 & 3003095120 & 92.88015 \\
 \label{tab:sfm}
 \end{table}
 
-Die Einflussgr\"o\ss{}en \textit{density} und \textit{area} sind beides r\"aumliche Merkmale. Auch sie wurden in einem Modell zusammengefasst. Wie in \ref{sec:preg}
-% wie ging das nochmal mit den referenzieren auf einen anderen bereich? *seufz...
+Auff\"allig in Abbildung \ref{fig:nbd} ist, dass beide Wahrscheinlichkeiten sich gewisserma\ss{}en \"ahnlich verhalten:
+Die meisten Wahrscheinlichkeiten haben nur relativ geringe Verbrechensanzahlen.
+Jedoch gibt es bei beiden Wahrscheinlichkeiten zwei Bereiche, in denen relativ ohe Verbrechensanzahlen vorliegen.
+F\"ur die Arrestierungswahrscheinlichkeit ist dies das Intervall $[0.15, 0.3]$ und f\"ur die Verurteilungswahrscheinlichkeit liegt dieser Peak in $[0.4, 0.55]$.
+Dies sind relativ geringe Wahrscheinlichkeiten.
+Trotzdem ist es interessant, dass die Counties, in denen es sehr viele gemeldete Delikte gab, sich in solchen Intervallen sammeln. 
+ 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{./jpgs/prvc.jpeg}
+\caption{Die Arrestierungswahrscheinlichkeiten sind blau gef\"arbt, w\"ahrend die Verurteilungswahrscheinlichkeiten rot gef\"arbt sind.}
+\label{fig:nbd}
+\end{figure}
+
+
+\par\smallskip
+Die Einflussgr\"o\ss{}en \textit{density} und \textit{area} sind beides r\"aumliche Merkmale. Auch sie wurden in einem Modell zusammengefasst. 
+Wie in Kapitel \ref{sec:preg} bereits erw\"ahnt wurde, liefern Modelle, welche die Variablen \textit{density} verwenden mit die besten Ergebnisse.
+In diesem Zusammenhang wurde auch das dichotome Merkmal \textit{region} mit zu dieser Grupperiung gez\"ahlt.
+Folgende Modelle, die in Liste \ref{lis:spa} aufgef\"uhrt sind, wurden betrachtet.
+Die Ergebnisse dieser Untersuchung liegen in Tabelle \ref{tab:spa} dar.
+Auch hier ist die selbe Beobachtung wieder zu machen, dass, mit Zunahme der Komplexit\"at der Modelle, sich die Kriterien verbessern.
+
+\begin{itemize}
+\item \textsc{mSpatial1: glm.nb(crimes~(density+area))}
+\item \textsc{mSpatial2: glm.nb(crimes~(density+area)^2)}
+\item \textsc{mSpatial3: glm.nb(crimes~(density+area+region))}
+\item \textsc{mSpatial4: glm.nb(crimes~(density+area+region)^2)}
+\label{lis:spa}
+\end{itemize}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & df & AIC & SPSE & Devienz\\ 
+  \hline
+mSpatial1 & 4.00 & 1462.89 & 3003028556 & 95.0647\\ 
+  mSpatial2 & 5.00 & 1463.57 & 3003008479 & 95.00924\\ 
+  mSpatial3 & 6.00 & 1460.37 & 3003031244 & 94.74483\\ 
+  mSpatial4 & 11.00 & 1444.15 & 3003082475 & 93.6144\\ 
+   \hline
+\end{tabular}
+\label{tab:spa}
+\end{table}
+
+\par\smallskip
+Als dritte Gruppierung besteht aus \textit{pctymin} (der Anteil von Minderheiten an der Gesamtbev\"olkerung) und \textit{pctymale} (der Anteil der jungen m\"annlichen Bev\"olkerung (15-24 Jahre)) .
+In der vierten Gruppierung wurden alle L\"ohne miteinander kombiniert.
+Hier wurden jedoch keine weiteren Untersuchungen an der Komplexit\"atszunahme der Modelle gemacht.
+Grund daf\"ur ist, dass anhand der ersten beiden Gruppierungsbetrachtungen geschlussfolgert wurde, dass komplexere Modelle auch immer die besseren Akaike-, SPSE- und Devienzwerte haben.
+Ausnahme hierbei ist manchmal die Summe \"über die erwarteten Fehlerquadrate.
+Stattdessen wurden in diesen beiden Gruppierungen nur die jeweils komplexesten Modelle betrachtet, wie in Liste \ref{lis:pct} und Tabelle \ref{tab:pct} entnommen werden kann.
+
+
+\begin{itemize}
+\item mPct: \texttt{glm.nb(crimes~(pctmin+pctymale)^2)}
+\item mTrade: \textt{glm.nb(crimes~(1+wsta+wser+wtrd+wfir)^2)}
+\label{lis:pct}
+\end{itemize}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & df & AIC \\ 
+  \hline
+mPct & 5.00 & 1612.85 \\ 
+  mTrade & 12.00 & 1541.39 \\ 
+   \hline
+\end{tabular}
+\label{tab:pct}
+\end{table}
+
+
+% TODO: Diagramm der Kriterienwerte von Modellen hinzufügen, damit ersichtlich wird, dass komplexere Modelle meist die geringereren fehler haben
 
 \subparagraph{Vergleich aller Modelle mit jeweils nur einem Merkmal}
 \subparagraph{Verwendung von step() und anschließende Minimierung des Modells}
