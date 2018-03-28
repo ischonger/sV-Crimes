@@ -2,7 +2,63 @@
 Wie bereits erw\"ahnt, wurden f\"unf unterschiedliche Herangehensweisen betrachtet, um ein geeignetes Modell zu finden.
 
 \paragraph{Wahl der Verteilung}
-negative binomialverteilung statt gauß-verteilung, begründug - siehe quelle!
+Wie Osgood in [Osgood2000]\footnote{Vgl.: D.Wayne Osgood: Poisson-Based Regression Analysis of Aggregate
+Crime Rates, Journal of Quantitative Criminology, Vol. 16, No. 1, 2000}
+schreibt, ist es von Vorteil Poissonverteilungen zu nutzen, um Kriminalit\"atsraten zu analysieren.
+Poissonbasierte Regressionsmodelle sind bei Beobachtungen von Verbrechensdelikten eine gute Wahl, da sie anhand von Annahmen \"uber Fehlerverteilungen gebaut werden, die mit der Art der Ereignisanzahl konsistent sind\footnote{[Osgood2000] S.21}. \\
+Osgood empfiehlt daher die Verwendung der negativen Binomialverteilung. Diese wurde von Poisson selber in den 1820-er Jahren entwickelt, um Verbrechen zu analysieren\footnote{Maltz, M. D. (1994). Operations research in studying crime and justice: Its history and accom-
+plishments. In Pollock, S. M., Rothkopf, M. H., and Barnett, A. (eds.), Operations
+Research and the Public Sector, Volume 6 of Handbooks in Operations Research and
+Management Science, North-Holland, Amsterdam, pp. 200 - 262.}.
+Daher wurde in dieser Arbeit nicht das \texttt{OLS}-Verfahren (ordinary least-squares) verwendet, welches eigentlich die Standardmethode in solchen Untersuchungen ist. \\
+Eine Normalverteilung oder eine symmetrische Fehlerverteilung kann hier nicht angenommen werden, da die Verbrechensanzahl sehr gering sein kann.
+Die kleinstm\"ogliche Anzahl an Verbrechen in einem County ist Null.
+Daher m\"usste eine Fehlerverteilung immer mehr verzerrt werden\footnote{Vgl.: [Osgood2000] S. 21 f.}.
+In Abbildung \ref{fig:nbd} sind 100 Zufallszahlen auf Basis der negativen Binomialverteilung mit $\theta = 0.7$ dargestellt.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{./jpgs/rnegbin.jpeg}
+\caption{In beiden Diagrammen sind die relativierten Verbrechenszahlen rot dargestellt.
+		 In dem linken Diagramm wurden dazu in blau mit Hilfe von \texttt{rnegbin()} berechnete     Zufallszahlen hinzugef\"ugt.
+		 Das rechte Diagramm enth\"alt stattdessen zus\"atzlich Zufallszahlen, die mit \texttt{rnorm()} berechnet wurden.}
+\label{fig:nbd}
+\end{figure}
+\par\smallskip
+
+Um die Annahme der negativen Binomialverteilung zu rechtfertigen wurden zu Beginn der Arbeit zwei Modelle verglichen, welche die selben Daten und die selbe Formel nutzen, aber unterschiedliche Verteilungen annehmen.
+Es wurde der gesamte Datensatz von allen 90 Counties genutzt.
+Die verwendete Formel war:
+\begin{equation}
+crimes = \beta_0 \cdot prbarr:prbpris + \beta_1
+\end{equation}
+
+Un zu entscheiden, welches der Modelle besser sch\"atzt, wurden die Akaike-Werte der beiden Modelle miteinander verglichen.
+In Tabelle \ref{tab:agn} finden sich diese Zahlen wieder.
+Der Akaikewert von Modell \textsc{m1Nb} ist wesentlich geringer als der von \tesxtsc{m1}.
+Dies sagt eigentlich nicht aus, dass \textsc{m1Nb} ein besseres Modell als \textsc{m1} ist.
+Vor allem aber ist die Devienz des ersten Modells viel gr\"o\ss{}er, als die des binomialverteilten.
+Dies spricht f\"ur eine deutliche Verbesserung.
+\par\smallskip
+W\"ahrend der Untersuchung wurden nat\"urlich mehrere Gleichungen angenommen als diese eine.
+Die Ergebnisse haben aber alle zu diesem selben Schluss gef\"uhrt.
+Eine graphische Veranschaulichung der Gegen\"uberstellung der beiden Verteilungen findet sich in Abbildung \ref{fig:nbd}.
+Hier sieht man recht gut, dass die Verbrechenszahlen eher zu einer negativen Binomialverteilung passen, als zu einer normalen Gau\ss{}verteilung.
+  
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+  \hline
+ 	   & df & AIC & Devienz\\ 
+  \hline
+	m1 & 3.00 & 1789.10 & 2118963611\\ 
+  m1Nb & 3.00 & 1598.57 & 106.3874\\ 
+   \hline
+\end{tabular}
+\caption{Gegen\"uberstellung der Akaike-Werte zweier Modelle. m1 nimmt eine Gau\ss{}verteilung an, w\"ahrend m1Nb eine negative Binomialverteilung annimmt.}
+\label{tab:agn}
+\end{table}
+
 
 \label{sec:preg}
 \paragraph{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
