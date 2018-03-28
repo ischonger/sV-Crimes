@@ -55,8 +55,8 @@ add1(m1, scope = ~(1+prbarr+prbpris+polpc+density+area+taxpc)^2)
 
 m2 <- glm.nb(crimes~(1+prbarr+prbpris)^2, data = crimes.data)
 add1(m2, prbarr)
-AIC(m0, mAll, mAll2, m1, m2, m2Nb)
-BIC(m0, mAll, mAll2, m1, m2, m2Nb)
+AIC(mAll, m1, m2)
+BIC(m0, mAll, m1, m2)
 ?AIC
 
 AIC(m0, mAll, m1Nb, m2)
@@ -199,4 +199,3 @@ plot(cvB7r)
 
 
 ########## beliebtestes modell in diesem ansatz nach akaike: mR
-

@@ -92,7 +92,7 @@ Dies ist deswegen interessant zu betrachten, da schon sehr fr\"uh in den Untersu
   	other & 35 & 2250 & 1235 & 101\\ 
    \hline
 \end{tabular}
-\caption{Vergleich der durchschnittlichen Eigenschaften der Counties aus den jeweiligen Regionen.}
+\caption{Vergleich der durchscnittlichen Eigenschaften der Counties aus den jeweiligen Regionen.}
 \label{tab:cvp}
 \end{table}
 
@@ -113,7 +113,7 @@ Befindet sich in dieser l\"andlichen Gegend aber eine gr\"o\ss{}ere Stadt, ist \
 \centering
 \includegraphics[scale=0.7]{./jpgs/cdc.jpeg}
  \abovecaptionskip
-\caption{Hier wird das Ver\"altnis \textit{density} zu \textit{crimes} dargestellt.}
+\caption{Hier wird das Ver\"altnis \textit{density} zu \textit{crimes} aufgezeigt.}
 \label{fig:cdc}
 \end{figure}
 
@@ -128,18 +128,40 @@ Daher wurde diese Dummy-Variable nicht weiter ver\"andert.
 \paragraph{Herangehensweisen}
 \subparagraph{explorative Herangehensweise}
 Um ein gutes Gef\"uhl f\"ur die Merkmalsvektoren zu bekommen, wurden zun\"achst einige Modelle ausprobiert und mittels AIC verglichen.
-Damit ein Vergleichswert nach dem Akaike-Ma\ss{} vorhanden war, wurde ein komplettes Modell angenommen, das aus allen vorhandenen Merkmalen besteht. Dieses Modell hei\ss{}t \textit{mAll}. Die entsprechende Formel sieht so aus:
-\begin{equation}
-crimes = \beta_0 \cdot prbarr+ \beta_1 \cdot prbpris + \beta_2  \cdot polpc +  \beta_3 \cdot density + \beta_4 \cdot area + \beta_5 \cdot taxpc + \beta_6 \cdot region + \beta_7 \cdot pctmin + \beta_8 \cdot pctymale + \beta_9 \cdot wcon + \beta_{10} \cdot wsta + \beta_{11} \cdot wser + \beta_{12} \cdot wtrd + \beta_{13} \cdot wfir
+Damit ein Vergleichswert nach dem Akaike-Ma\ss{} vorhanden war, wurde ein komplettes Modell angenommen, das aus allen vorhandenen Merkmalen besteht. Dieses Modell hei\ss{}t \textsc{mAll}. Die entsprechende Formel sieht so aus:
+\begin{equation}\begin{split}
+crimes = 
+\beta_0 \cdot prbarr+ \beta_1 \cdot prbpris + \beta_2  \cdot polpc +  \beta_3 \cdot density + \\
+\beta_4 \cdot area + \beta_5 \cdot taxpc + \beta_6 \cdot region + \beta_7 \cdot pctmin + \\
+\beta_8 \cdot pctymale + \beta_9 \cdot wcon + \beta_{10} \cdot wsta + \beta_{11} \cdot wser + \\
+\beta_{12} \cdot wtrd + \beta_{13} \cdot wfir
+\end{split}
 \end{equation}
 Es wurde bewusst darauf verzichtet in diesem 'gesamten' Modell die Intersections (Wechselwirkungen) der einzelnen Merkmale zu betrachten. Grund daf\"ur ist, dass das Akaike-Ma\ss{} Modelle mit vielen Einflussgr\"o\ss{}en mehr bestraft, als solche die weniger besitzen. Da bei dieser Untersuchung das Akaike-Ma\ss{} das am h\"aufigsten verwendete Kriterium war, sollte also das erste Modell, mit dem die anderen verglichen wurden, nicht einen gro\ss{}en negativen Wert aufweisen, so wie das in diesem Fall der Fall gewesen w\"are. (Der Akaike-Wert des Modells, das alle Merkmale und alle Wechselwirkungen zwischen diesen betrachtet, betr\"agt -3441.465. In diesem Modell gibt es 91 Freiheitsgrade.)
 Die Daten \texttt{crimes.data}, welche der Funktion \texttt{glm.nb(formula, data = crimes.data)} w\"ahrend der gesamten Untersuchung gegeben wurden, wurden nicht ver\"andert. Es handelt sich hierbei immer um den gesamten Datensatz aus der Datei \textit{crimes.csv}.
 
 Im Folgenden wurde bemerkt, dass diese Merkmale durchaus gruppiert betrachtet werden k\"onnen. Daher bestand die erste Idee darin, die unterschiedlichen Gruppierungen je Modell zu betrachten:
-Die ersten beiden Merkmale (\textit{prbarr} und \textit{prbpris}) geben beide Verh\"altnisse zum Anteil aller Straft\"ater in einem County an. Daher wurde ein Modell aus diesen beiden Einflussgr\"o\ss{}en betrachtet.
-\begin{equation}
-crimes = prbarr:prbpris
-\end{equation}
+Die ersten beiden Merkmale (\textit{prbarr} und \textit{prbpris}) geben beide Verh\"altnisse zum Anteil aller Straft\"ater in einem County an. Daher wurden Modelle aus diesen beiden Einflussgr\"o\ss{}en betrachtet.
+Das Modell \textsc{m1} hat den Formelaufruf \textsc{glm.nb(formula = crimes ~ 1 + prbarr:prbpris}.
+Modell \textsc{m2} besitzt die Formel \textsc{glm.nb(formula = crimes ~ (1 + prbarr + prbpris)^2)}.
+Die AIC-Werte dieser Modelle sind in Tabelle \ref{tab:sfm} einsehbar.
+Wie erwartet sagen hier alle Kriterien \"Ahnliches aus:
+Diese Modelle \textsc{m1} und \textsc{m2} sind sich etwas \"ahnlich, wobei das etwas komplexere Modell \textsc{m2} etwas besser abschneidet.
+Beide sind aber wesentlich schlechter als das komplexe Modell \textsc{mAll}.  
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & df & AIC & SPSE & Devienz\\ 
+  \hline
+mAll & 17.00 & 1432.29 & 3003095120 & 92.88015 \\ 
+  m1 & 3.00 & 1598.57 & 3003572113 & 106.3874\\ 
+  m2 & 5.00 & 1580.94 & 3003529863 & 103.9891\\ 
+   \hline
+\end{tabular}
+\label{tab:sfm}
+\end{table}
+
 Die Einflussgr\"o\ss{}en \textit{density} und \textit{area} sind beides r\"aumliche Merkmale. Auch sie wurden in einem Modell zusammengefasst. Wie in \ref{sec:preg}
 % wie ging das nochmal mit den referenzieren auf einen anderen bereich? *seufz...
 
