@@ -1,7 +1,5 @@
 ### Pseudos ###
 require(MASS)
-library(nlmeODE)
-require(nlmeODE)
 library(numDeriv)
 # models from winners.R
 
@@ -174,12 +172,12 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031
 # also ist die erste simulation besser,
 # ist eine der zahlen kleiner als 1, so ist die zweite simulation besser
 # credentials of simulation 1, credentials of simulation 2
-compare <- function(loops = 10) { 
+compare <- function(loops = 10) {
   rm <- matrix(ncol = 4, nrow = loops)
   for(i in 1:loops) {
-    betas1 <- simulation(seed = sample(1:100000, 1), amount = 90)
+    betas1 <- simulation(model = m1, seed = sample(1:100000, 1), amount = 30)
     Sys.sleep(2)
-    betas2 <- simulation(seed = sample(1:100000, 1), amount = 3, repeats = )
+    betas2 <- simulation(model = m1, seed = sample(1:100000, 1), amount = 30, repeats = 30)
     rm[i,1] <- betas1[1]
     rm[i,2] <- betas1[2]
     rm[i,3] <- betas2[1]
@@ -189,13 +187,34 @@ compare <- function(loops = 10) {
   return(c(mean(rm[,3]) / mean(rm[,1]),  mean(rm[,4]) / mean(rm[,2])))
 }
 
+a <- seq(1000, 800, by = -50)
+for (i in a) {
+  a[1,i] <- compare()[1]
+  a[2,i] <- compare()[2]
+}
+
+compare2 <- function(loops = 10) {
+  a <- seq(1000, 800, by=-50)
+  for(i in 1:loops) {
+    for (j in a) {
+      rm <- matrix(ncol = 4, nrow = loops)
+      betas1 <- simulation(model = m1, seed = sample(1:10000, 1), amount = 30)
+      Sys.sleep(2)
+      betas2 <- simulation(model = m1, seed = sample(1:10000, 1), amount = 20, repeats = 100)
+      rm[i,1] <- betas1[1]
+      rm[i,2] <- betas1[2]
+      rm[i,3] <- betas2[1]
+      rm[i,4] <- betas2[2]
+    }
+    a[1,i] <- mean(rm[,3]) / mean(rm[,1])
+    a[2,i] <- mean(rm[,4]) / mean(rm[,2])
+  }
+  return(a)
+}
+
 # 
 
-# results:
-compare(repeats1 = 1, amount1 = 10, repeats2 = 100, amount2 = 90)
-# 0.09919219 0.03302115
-# 1.292789 3.225211
-# 1.271198 4.022766
+
 # 
 ## => die werte aus der ersten simulation sind wesentlich größer als die aus der zweiten
 ## das entspricht den erwartungen -> wenn weniger wiederholungen angeboten werden, müsste 

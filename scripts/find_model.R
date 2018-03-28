@@ -199,3 +199,4 @@ plot(cvB7r)
 
 
 ########## beliebtestes modell in diesem ansatz nach akaike: mR
+
