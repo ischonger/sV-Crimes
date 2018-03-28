@@ -47,6 +47,7 @@ m1Nb <- glm.nb(crimes~1+prbarr:prbpris, data = crimes.data)
 plot(m1Nb)
 AIC(m0, mAll, m1Nb)
 
+AIC(m1, m1Nb)
 
 mAll2 <- glm.nb(crimes~(1+prbarr+prbpris+polpc+density+area+taxpc+region+pctmin+pctymale+wcon+wsta+wser+wtrd+wfir)^2, data = crimes.data)
 add1(m1, scope = ~(1+prbarr+prbpris+polpc+density+area+taxpc)^2)

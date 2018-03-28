@@ -1,50 +1,71 @@
 \subsection{Material}
-Cornwell und Trumbull (1994), nachstehend (CT), schätzten ein Wirtschaftsmodell der Kriminalität unter Verwendung von Paneldaten über 90 Countys in North Carolina zwischen 1981 und 1987. Becker (1963) und Ehrlich (1973) unter anderem folgen das empirische Modell, der die Kriminalitätsrate (FBI-Index, der die Anzahl der Verbrechen geteilt durch die Kreisbevölkerung misst) auf eine Reihe von erklärenden Variablen bezieht, diese Variablen einschließen abschreckende Variablen sowie Variablen, die die Chancen zum Legal zurückzukehren berechnen. Alle Variablen, außer der Regional- und Zeitdummys Variablen, sind in Protokollen gespeichert \footnote{Vgl.: Badi H. Baltagli, estimating an economic model of crime using panel data from North Carolina, journal of applied econometrics, S.: 543 f.}.
-Der Datensatz besteht aus einer .csv-Datei.
-In ihr sind die unterschiedlichen 90 Counties von North Carolina zeilenweise aufgelistet.
-Die Spalten sind (m\"ogliche) Eingeschaftsvektoren.
-In der Arbeit von Baltagli \footnote{1} werden noch einige Eigenschaften mehr aufgelistet, als in dieser Arbeit betrachtet wurden. Daher hier eine kleine \"Ubersicht über alle m\"ogichen Einflussgr\"o\ss{}en: \\
-Alle Eigenschaftsvektoren sind logarithmisch mit Ausnahme der Region und der Zeit.
-Die erste Spalte beinhaltet die Zielgr\"o\ss{}e \textit{crimes}, also die Anzahl aller Straftaten in dem jeweiligen County \"uber den Zeitraum von 1981-1987. \\
-Weiterhin wurde die Arrestwahrscheinlichkeit $P_A$ hinzugef\"ugt. Sie berechnet sich aus $P_A = \frac{\text{Arrestierungen}}{text{Delikte}}$. Sie wird abgek\"urzt \textit{prbarr} geschrieben.
-Daneben gibt es auch die \"Uberzeugungswahrschleinlichkeit $P_C$. Sie gibt das Verh\"altnis zwischen tats\"achlichen Arrestierungen und den gestandenen Straftaten an und wird daher berechnet mit $P_P = \frac{\text{Anzahl tats\"achlicher Arrestierungen}}{\text{Anzahl gestandener Straftaten}}$. Sie wird bezeichnet als \textit{prbpris}. \\
-Eine weitere Eigenschaft ist die Fähigkeit des Countys ein Verbrechen auch zu ermitteln. In dem Datensatz spiegelt sich dies in der Variable \textit{polpc} wieder. Sie gibt das Polizei-pro-Kopf-Verhältnis an. \\
-Ein weiteres wichtiges Merkmal ist die Bev\"olkerungsdichte (\textit{density}). Sie stellt das Verhältnis $frac{\text{anzahl bev\"olkerung}}{\text{Fl\"ache des Countys in square miles}}$ dar. \\
-Darüberhinaus wird das Verh\"altnis von Minderheiten zu der Gesamtanzahl Einwohner in der Variable \textit{pctmin} ausgedrückt. \\
-\textit{pctymale} ist eine Eigenschaft, die den Anteil der jungen m\"annlichen Bev\"olkerung zur Gesamtbev\"olkerung anzeigt. \\
-Die letzten f\"unf Variablen geben den durschnittlichen Bruttolohn in den Bereichen Baugewerbe (\textit{wcon}, Staatsangestelle (\textit{wsta}), Dienstleistungssektor (\textit{wser}), Handel (\textit{wtrd}) und Bankgesch\"aften (textit{wfir}) wieder. \\
+Cornwell und Trumbull (1994)\footref{ftn:cut}, sch\"atzten ein Wirtschaftsmodell der Kriminalit\"at unter Verwendung von Daten aus 90 Counties in North Carolina zwischen 1981 und 1987. 
+Becker (1963) und Ehrlich (1973)\footnote{Ehrlich I. 1973. Participation in illegitimate activities: a theoretical and empirical investigation. Journal of Political Economy 81: 521–567.\label{ftn:ehr}} unter anderem folgen dem empirische Modell, welches die Kriminalit\"atsrate misst und sich dabei auf eine Reihe von Variablen bezieht. 
+Dazu geh\"oren auch solche Variablen, wie z.B. die Angst eine Straftat zu begehen oder auch Variablen, die messen wie oft der T\"ater danach wieder straffrei geblieben ist.
+Diese Kriminalit\"atsrate ist ein FBI-Index, der das Verh\"altnis zwischen Anzahl der Verbrechen und der Kreisbev\"olkerung berechnet\footnote{Vgl.: Badi H. Baltagli, estimating an economic model of crime using panel data from North Carolina, journal of applied econometrics, S.: 543 f.}. \\
+In dieser Arbeit jedoch werden nicht alle diese Daten zur Ermittlung eines geeigneten Modells genutzt.
+Hier folgt eine Beschreibung des Datensatzes: \\
 
+Der Datensatz ist in einer .csv-Datei gespeichert.
+In ihr sind die unterschiedlichen 90 Counties von North Carolina zeilenweise aufgelistet.
+Die Spalten sind (m\"ogliche) Eigenschaftsvektoren.
+Alle Eigenschaftsvektoren sind logarithmisch mit Ausnahme der Region, die eine Dummy-Variable ist. \\
+Die erste Spalte beinhaltet die Zielgr\"o\ss{}e \textit{crimes}, also die Anzahl aller Straftaten in dem jeweiligen County \"uber den Zeitraum von 1981-1987. 
+\par\smallskip
+Weiterhin wurde die Arrestwahrscheinlichkeit $P_A$ hinzugef\"ugt. Sie berechnet sich aus 
+\begin{equation}
+P_A = \frac{\text{Arrestierungen}}{\text{Delikte}}
+\end{equation}
+Sie wird abgek\"urzt \textit{prbarr} geschrieben. \newline
+\par\smallskip
+Daneben gibt es auch die \"Uberzeugungswahrscheinlichkeit $P_C$. Sie gibt das Verh\"altnis zwischen tats\"achlichen Arrestierungen und den gestandenen Straftaten an und wird daher berechnet mit 
+\begin{equation}
+P_C = \frac{\text{Anzahl tats\"achlicher Arrestierungen}}{\text{Anzahl gestandener Straftaten}}
+\end{equation}
+Sie wird bezeichnet als \textit{prbpris}. \newline
+\par\smallskip
+Eine weitere Eigenschaft ist die F\"ahigkeit des Countys ein Verbrechen auch zu ermitteln. In dem Datensatz spiegelt sich dies in der Variable \textit{polpc} wieder. Sie gibt das Verh\"altnis zwischen Anzahl der Polizisten zu der Bev\"olkerungsanzahl an. \newline
+\par\smallskip
+Ein weiteres wichtiges Merkmal ist die Bev\"olkerungsdichte (\textit{density}). Sie stellt das Verh\"altnis zwischen der Bev\"olkerungsanzahl und der Fl\"ache des Countys (in square miles) dar. \newline
+\par\smallskip
+Dar\"uberhinaus wird das Verh\"altnis von Minderheiten zu der Gesamtanzahl Einwohner in der Variable \textit{pctmin} ausgedr\"uckt. \\
+\textit{pctymale} ist eine Eigenschaft, die den Anteil der jungen m\"annlichen Bev\"olkerung zur Gesamtbev\"olkerung anzeigt. \\
+\par\smallskip
+Die letzten f\"unf Variablen geben den durschnittlichen Bruttolohn in den Bereichen Baugewerbe (\textit{wcon}), Staatsangestelle (\textit{wsta}), Dienstleistungssektor (\textit{wser}), Handel (\textit{wtrd}) und Bankgesch\"aften (\textit{wfir}) wieder.
+\par\medskip
 
 \subsection{Methoden}
-Um ein geeignetes Modell aus den oben beschriebenen Merkmalen zu finden, wurden f\"unf unterschiedliche Herangehensweisen vorgeschlagen, um ein Modell zu finden, das möglichst geringe Fehler aufweist.
+Um ein geeignetes Modell aus den oben beschriebenen Merkmalen zu finden, wurden f\"unf unterschiedliche Herangehensweisen vorgeschlagen, um ein Modell zu finden, das m\"oglichst geringe Fehler aufweist.
 \begin{itemize}
 	\item explorative Herangehensweise (ausprobieren)
 	\item Vergleich aller Modelle mit nur einem Merkmal
-	\item Verwendung von step() und anschließende Minimierung des Modells
+	\item Verwendung von step() und anschlie\ss{}ende Minimierung des Modells
 	\item strukturierte Suche nach einem geeigneten Modell
 	\item Verwendung von cor()
 \end{itemize}
-Am Ende einer jeden Herangehensweise wurde ein bestes Modell vorgschlagen. Diese wurden dann anschließend miteinander verglichen, um ein bestmögliches Modell zu bestimmen.
+Am Ende einer jeden Herangehensweise wurde ein bestes Modell vorgschlagen. Diese wurden dann anschlie\ss{}end miteinander verglichen, um ein bestm\"ogliches Modell zu bestimmen.
 \par\smallskip
 
 \noindent
-Haupts\"achlich wurden zwei G\"utekriterien verwendet.
+Haupts\"achlich wurden zwei G\"utekriterien verwendet, um verschiedene Modelle miteinander vergleichen zu k\"onnen.
 \par\smallskip
-
-\noindent
-Zum einen \textit{Akaikes Information Criterion} (AIC), welches die logarithmische Fehlerabweichung des Sch\"atzers mit der Anzahl der verwendeten Merkmale bestraft. \\
+Zum einen \textit{Akaikes Information Criterion} (AIC), welches die logarithmische Fehlerabweichung des Sch\"atzers $ln(\underline{\hat{\Theta}}_n)$ mit der Anzahl der verwendeten Merkmale $p$ bestraft. \\
 \begin{equation}
 \text{AIC} := -2*ln(\underline{\hat{\Theta}}_n) + 2p
+\label{eq:aic}
 \end{equation}  
-AIC spiegelt den Kompromiss zwischen Verbesserung der Modellanpassung durch erhöhte $p$ und erhöhte Ungenauigkeit durch Schätzung vieler Parameter wieder. \\
-In einigen F\"allen wurde auch die \textit{Devienz} betrachtet, um die G\"ute mehrerer Modelle miteinander zu vergleichen.
+Je kleiner also der erhaltene Wert ist, desto besser sei das untersuchte Modell. \\
+Der Faktor $2$, der hier in Formel (3) auftritt, kann mit einem beliebigen Wert $n, n\in \mathds{N}$ belegt werden. In dieser Arbeit wurde er allerdings dauerhaft auf $2$ belassen. \\ 
+AIC spiegelt den Kompromiss zwischen Verbesserung der Modellanpassung durch erh\"ohte $p$ und erh\"ohte Ungenauigkeit durch Sch\"atzung vieler Parameter wider.
+\par\smallskip
+In einigen F\"allen wurde auch die \textit{Devienz} betrachtet, um die G\"ute mehrerer Modelle miteinander zu vergleichen. \\
 Hier geht man von einem saturierten Modell aus. Dies ist das komplexeste Modell f\"ur einen Datensatz, dass durch Erh\"ohung der Parameterzahl erzeugt werden kann. In vielen F\"allen hat das saturierte Modell daher so viele Parameter wie Beobachtungen. Falls Einflusvektoren mehrfach vorkommen, besitzt das saturierte Modell weniger Parameter. Das ist typischerweise der Fall f\"ur Experimente mit qualitativen Einflussgr\"o\ss{}en. \\
 Hier wird die Likelihood-Quotienten-Statistik zum Vergleich eines Modells $M$ mit dem saturierten Modell 
 \begin{equation}
 T(\underline{Y}) = 2(l_{\text{saturiert}} - l_M)
 \end{equation}
 betrachtet. \\
-Die Likelihood-Quotienten-Statistik ist asymptotisch  $\mathcal{X}^2$ - verteilt. Dabei ist r die Differenz der Parameterzahlen. Deswegen funktioniert hier der Likelihood-Quotienten-Test nicht, da f\"ur $n \rightarrow \infty$ die Anzahl der Freiheitsgrade auch typischerweise unbeschr\"ankt w\"achst. \\
+Die Likelihood-Quotienten-Statistik ist asymptotisch  $\mathcal{X}^2$ - verteilt. Dabei ist $r$ die Differenz der Parameterzahlen. Deswegen funktioniert hier der Likelihood-Quotienten-Test nicht, da f\"ur $n \rightarrow \infty$ die Anzahl der Freiheitsgrade auch typischerweise unbeschr\"ankt w\"achst. \\
 Die Gr\"o\ss{}e 
 \begin{equation}
 D(M) = 2(l_{\text{saturiert}} - l_M)
@@ -65,17 +86,16 @@ Nun wird der erwartete Prognosefehler gesch\"atzt: \\
 \begin{equation}
 \sum_{i \in I_j} (y_i - \underline{x}_i^{(M)^T} \underline{\hat{\beta}}^{(m-j)}})^2 = \hat{SPSE}_j^{(M)}
 \end{equation}
-% TODO: wie wird in Formeln das Dach und UNterstrich gesetzt?
 Dabei ist $\underline{\hat{\beta}}^{(m-j)}$ die auf $I/I_j$ basierende Sch\"atzung. \\
 Zuletzt werden alle Teilsch\"atzungen zu einer Sch\"atzung f\"ur SPSE zusammen kombiniert: \\
-\begin{equation} % TODO: hier auch dach!
+\begin{equation}
 \hat{SPSE}^{(M)} := \sum_{j=1}^l (\hat{SPSE}_j^{(M)})
 \end{equation}
 Zu bemerken ist, dass jede Beobachtung einmal in einem Testdatensatz verwendet wird. Au\ss{}erdem ist die Abh\"angigkeit von der konkreten Zerlegung nur reduziert, aber nicht verschwunden. Es gibt einen Spezialfall, wenn $l=n$. Das hei\ss{}t, dass der gestamte Testdatensatz in $n$ Teildatens\"atze zerlegt wird. Jede Beobachtung wird mit der Prognose basierend auf $(n-1$ Beobachtungen verglichen. Dies ist auch bekannt als \textit{leave-one-out-cross-validation}. Als Faustregel empfiehlt es sich $l \approx 10$ zu w\"ahlen. \\
 \par\bigskip
 
 In der Simulationsaufgabe des Projektes sollte der Einfluss des Stichprobenumfangs auf die Genauigkeit der Approximation der tats\"achlichen Kovarianzmatrix des Maximum-Likelihood-Sch\"atzers durch die asymptotische Kovarianzmatrix untersucht werden.
-Dazu wurde zun\"achst ein m\"oglichst einfaches wahres Modell angenommen. Anhand dessen wurde aus dem gesamten Datensatz eine beliebig gro\ss{}e Teilmenge $T$ entnommen. Aus den Daten von $T$ wurde dann eine Designmatrix gebildet, die Grundlage f\"ur die darauf folgendenden Generierungen für Pseudozufallszahlen war. Meistens wurde die Gr\"o\ss{}e dieser zu untersuchenden Teilmenge auf 30 gesetzt. (Der gesamte Datensatz umfasst 90 Subjekte.) Jedoch wurden auch andere Gr\"o\ss{}en \"uberpr\"uft. Aus der auf diese Art und Weise gebildeten Designmatrix, wurden nun wiederum unterschiedlich gro\ss{}e Stichproben ausgew\"ahlt und die daraus berechneten $\beta_0$ und $\beta_1$ Werte in einer weiteren Matrix gespeichert. Aus dieser Matrix wurden dann die Varianz und die Kovarianz f\"ur die tats\"achliche Kovarianzmatrix berechnet. \\
+Dazu wurde zun\"achst ein m\"oglichst einfaches wahres Modell angenommen. Anhand dessen wurde aus dem gesamten Datensatz eine beliebig gro\ss{}e Teilmenge $T$ entnommen. Aus den Daten von $T$ wurde dann eine Designmatrix gebildet, die Grundlage f\"ur die darauf folgendenden Generierungen f\"ur Pseudozufallszahlen war. Standarm\"a\ss{}ig wurde die Gr\"o\ss{}e dieser zu untersuchenden Teilmenge auf $30$ gesetzt. (Der gesamte Datensatz umfasst 90 Subjekte.) Jedoch wurden auch viele andere Gr\"o\ss{}en \"uberpr\"uft. Aus der auf diese Art und Weise gebildeten Designmatrix, wurden nun wiederum unterschiedlich gro\ss{}e Stichproben ausgew\"ahlt und die daraus berechneten $\beta_0$ und $\beta_1$ Werte in einer weiteren Matrix gespeichert. Aus dieser Matrix wurden dann die Varianz und die Kovarianz f\"ur die tats\"achliche Kovarianzmatrix berechnet. \\
 \par\smallskip
 Da
 \begin{equation}
@@ -85,7 +105,7 @@ N(0,I)
 \end{equation}
 gilt, gilt f\"ur die Approximation von $\underline{\hat{\beta}}_n$ bei festem $n$:
 \begin{equation}
-\underline{\hat{\beta}}_n \approx N(\underline{\beta, I^{-1}(\beta))}
+\underline{\hat{\beta}}_n \approx N(\underline{\beta}, I^{-1}(\beta))}
 \end{equation}
 Die Kovarianzmatrix $\mathbb{X}$ ist die inverse Fisher-Matrix $I$. Daher hat $I(\underline{\beta})$ die kanonische Linkfunktion einfachen Gestalts
 \begin{equation}
@@ -93,4 +113,6 @@ I(\underline{\beta}) = \mathbb{X}^T V \mathbb{X}
 \end{equation}
 Dabei ist $V$ eine Diagonalmatrix, welche in der Spur die Varianzen h\"alt.
 Anhand dessen wurde die asymptotische Kovarianzmatrix berechnet.
-Die daraus herausgehenden Resultate wurden dann bei einem kleiner werdenden $n$ auch immer geringer, sodass die Ergebnisse immer in Relation zueinander verglichen wurden. 
+Die daraus herausgehenden Resultate wurden dann bei einem kleiner werdenden $n$ auch immer geringer, sodass die Ergebnisse immer in Relation zueinander verglichen wurden. \\
+Daher hat es sich angeboten eine Hilfsfunktionen \texttt{simulation()} zu schreiben, welche eine solche Simulation durchf\"uhrt. \\
+Au\ss{}erdem wurde eine weitere Hilfsfunktion \texttt{compare()} geschrieben, die zwei solche Simulationen in Relation zueinander vergleicht. 
