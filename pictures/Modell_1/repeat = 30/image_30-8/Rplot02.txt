@@ -1,0 +1,3 @@
+    betas1 <- simulation(seed = sample(1:100000, 1), amount = 30)
+    Sys.sleep(2)
+    betas2 <- simulation(seed = sample(1:100000, 1), amount = 8, repeats = 30)

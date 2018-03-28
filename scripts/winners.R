@@ -45,3 +45,4 @@ plot(cvC[1,])
 
 ##### gewinner: #####
 m2
+

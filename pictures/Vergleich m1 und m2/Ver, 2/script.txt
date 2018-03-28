@@ -1,0 +1,5 @@
+m1 -> amount = 30
+m2 -> amount = 10, repeats = 30
+
+> compare()
+[1] 1721.995 8547.648
