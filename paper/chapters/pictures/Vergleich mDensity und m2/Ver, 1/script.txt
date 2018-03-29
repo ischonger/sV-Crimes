@@ -1,0 +1,6 @@
+mDensity -> amount = 30
+m2 -> amount = 4, repeats = 30
+
+
+> compare()
+[1] 1.822331 1.303415
