@@ -1,7 +1,12 @@
 \subsection{Modellwahl}
 Wie bereits erw\"ahnt, wurden f\"unf unterschiedliche Herangehensweisen betrachtet, um ein geeignetes Modell zu finden.
+Eine jede dieser Herangehensweisen soll am Ende ein 'bestes' Modell liefern.
+Am Ende werden dann all diese 'Gewinnermodelle' noch einmal miteinander verglichen, um ein finales Modell zu ermitteln. \\
+Zun\"achst wird in Kapitel \ref{sec:wdv} auf die w\"ahrend der Untersuchung angenommene  Verteilung angegangen. 
+Bevor dann die unterschiedlichen Herangehensweisen vorgestelt werden, wird die Einflussgr\"o\ss{}e \textit{region} in dem Kapitel \ref{sec:preg} genauer untersucht.
 
-\paragraph{Wahl der Verteilung}
+\subsubsection{Wahl der Verteilung}
+\label{sec:wdv}
 Wie Osgood in [Osgood2000]\footnote{Vgl.: D.Wayne Osgood: Poisson-Based Regression Analysis of Aggregate
 Crime Rates, Journal of Quantitative Criminology, Vol. 16, No. 1, 2000}
 schreibt, ist es von Vorteil Poissonverteilungen zu nutzen, um Kriminalit\"atsraten zu analysieren.
@@ -61,7 +66,7 @@ Hier sieht man recht gut, dass die Verbrechenszahlen eher zu einer negativen Bin
 
 
 \label{sec:preg}
-\paragraph{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
+\subsubsection{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
 Bei der Einflussgr\"o\ss{}e \textit{region} handelt es sich um eine dichotome Dummy-Variable.
 Sie gibt an in welchem Bereich des Bundesstaates (= die Region) sich das County befindet.
 Es gibt drei m\"ogliche Werte, welche diese Variable annehmen kann: \textit{central}, \textit{west} und \textit{other}.
@@ -125,8 +130,8 @@ Daher wurde diese Dummy-Variable nicht weiter ver\"andert.
 \textsf{R} behandelt solche Variablen automatisch mithilfe von \texttt{as.factor()} als diskrete Zahlen.
 
 
-\paragraph{Herangehensweisen}
-\subparagraph{explorative Herangehensweise}
+\subsubsection{Herangehensweisen}
+\paragraph{explorative Herangehensweise}
 Um ein gutes Gef\"uhl f\"ur die Merkmalsvektoren zu bekommen, wurden zun\"achst einige Modelle ausprobiert und mittels AIC verglichen.
 Damit ein Vergleichswert nach dem Akaike-Ma\ss{} vorhanden war, wurde ein komplettes Modell angenommen, das aus allen vorhandenen Merkmalen besteht. Dieses Modell hei\ss{}t \textsc{mAll}. Die entsprechende Formel sieht so aus:
 \begin{equation}\begin{split}
@@ -139,11 +144,11 @@ crimes =
 \end{equation}
 Es wurde bewusst darauf verzichtet in diesem 'gesamten' Modell die Intersections (Wechselwirkungen) der einzelnen Merkmale zu betrachten. Grund daf\"ur ist, dass das Akaike-Ma\ss{} Modelle mit vielen Einflussgr\"o\ss{}en mehr bestraft, als solche die weniger besitzen. Da bei dieser Untersuchung das Akaike-Ma\ss{} das am h\"aufigsten verwendete Kriterium war, sollte also das erste Modell, mit dem die anderen verglichen wurden, nicht einen gro\ss{}en negativen Wert aufweisen, so wie das in diesem Fall der Fall gewesen w\"are. (Der Akaike-Wert des Modells, das alle Merkmale und alle Wechselwirkungen zwischen diesen betrachtet, betr\"agt -3441.465. In diesem Modell gibt es 91 Freiheitsgrade.)
 Die Daten \texttt{crimes.data}, welche der Funktion \texttt{glm.nb(formula, data = crimes.data)} w\"ahrend der gesamten Untersuchung gegeben wurden, wurden nicht ver\"andert. Es handelt sich hierbei immer um den gesamten Datensatz aus der Datei \textit{crimes.csv}.
-
+\par\smallskip
 Im Folgenden wurde bemerkt, dass diese Merkmale durchaus gruppiert betrachtet werden k\"onnen. Daher bestand die erste Idee darin, die unterschiedlichen Gruppierungen je Modell zu betrachten:
-Die ersten beiden Merkmale (\textit{prbarr} und \textit{prbpris}) geben beide Verh\"altnisse zum Anteil aller Straft\"ater in einem County an. Daher wurden Modelle aus diesen beiden Einflussgr\"o\ss{}en betrachtet.
-Das Modell \textsc{m1} hat den Formelaufruf \textsc{glm.nb(formula = crimes ~ 1 + prbarr:prbpris}.
-Modell \textsc{m2} besitzt die Formel \textsc{glm.nb(formula = crimes ~ (1 + prbarr + prbpris)^2)}.
+Die ersten beiden Merkmale (\textit{prbarr} und \textit{prbpris}) geben beide Verh\"altnisse zum Anteil aller Straft\"ater in einem County an. Daher wurden Modelle aus diesen beiden Einflussgr\"o\ss{}en betrachtet. \\
+Das Modell \textsc{m1} hat den Formelaufruf \textsc{glm.nb(formula = $crimes ~ 1 + prbarr:prbpris$}.
+Modell \textsc{m2} besitzt die Formel \textsc{glm.nb(formula = $crimes ~ (1 + prbarr + prbpris)^2$)}. \\
 Die AIC-Werte dieser Modelle sind in Tabelle \ref{tab:sfm} einsehbar.
 Wie erwartet sagen hier alle Kriterien \"Ahnliches aus:
 Diese Modelle \textsc{m1} und \textsc{m2} sind sich etwas \"ahnlich, wobei das etwas komplexere Modell \textsc{m2} etwas besser abschneidet.
@@ -161,14 +166,16 @@ mAll & 17.00 & 1432.29 & 3003095120 & 92.88015 \\
    \hline
 \end{tabular}
 \label{tab:sfm}
+\caption{Vergleich von Modellen, die auf den Wahrscheinlichkeitsvariablen beruhen.}
 \end{table}
 
 Auff\"allig in Abbildung \ref{fig:nbd} ist, dass beide Wahrscheinlichkeiten sich gewisserma\ss{}en \"ahnlich verhalten:
 Die meisten Wahrscheinlichkeiten haben nur relativ geringe Verbrechensanzahlen.
-Jedoch gibt es bei beiden Wahrscheinlichkeiten zwei Bereiche, in denen relativ ohe Verbrechensanzahlen vorliegen.
+Jedoch gibt es bei beiden Wahrscheinlichkeiten zwei Bereiche, in denen relativ hohe Verbrechensanzahlen vorliegen.
 F\"ur die Arrestierungswahrscheinlichkeit ist dies das Intervall $[0.15, 0.3]$ und f\"ur die Verurteilungswahrscheinlichkeit liegt dieser Peak in $[0.4, 0.55]$.
 Dies sind relativ geringe Wahrscheinlichkeiten.
-Trotzdem ist es interessant, dass die Counties, in denen es sehr viele gemeldete Delikte gab, sich in solchen Intervallen sammeln. 
+Trotzdem ist es interessant, dass die Counties, in denen es sehr viele gemeldete Delikte gab, sich in solchen Intervallen sammeln.
+Das liegt wahrscheinlich daran, dass es wahrscheinlicher ist, dass Straft\"ater 'nur' arrestiert, als gleich ganz verurteilt zu werden.
  
 
 \begin{figure}
@@ -180,19 +187,20 @@ Trotzdem ist es interessant, dass die Counties, in denen es sehr viele gemeldete
 
 
 \par\smallskip
-Die Einflussgr\"o\ss{}en \textit{density} und \textit{area} sind beides r\"aumliche Merkmale. Auch sie wurden in einem Modell zusammengefasst. 
-Wie in Kapitel \ref{sec:preg} bereits erw\"ahnt wurde, liefern Modelle, welche die Variablen \textit{density} verwenden mit die besten Ergebnisse.
+Die Einflussgr\"o\ss{}en \textit{density} und \textit{area} sind beides r\"aumliche Merkmale. Auch sie wurden in einem Modell zusammengefasst.
+Wie in Kapitel \ref{sec:preg} bereits erw\"ahnt wurde, liefern Modelle, welche die Variable \textit{density} verwenden, mit die besten Ergebnisse.
 In diesem Zusammenhang wurde auch das dichotome Merkmal \textit{region} mit zu dieser Grupperiung gez\"ahlt.
 Folgende Modelle, die in Liste \ref{lis:spa} aufgef\"uhrt sind, wurden betrachtet.
-Die Ergebnisse dieser Untersuchung liegen in Tabelle \ref{tab:spa} dar.
+Die Ergebnisse dieser Untersuchung liegen in Tabelle \ref{tab:spa} dar. \\
 Auch hier ist die selbe Beobachtung wieder zu machen, dass, mit Zunahme der Komplexit\"at der Modelle, sich die Kriterien verbessern.
 
 \begin{itemize}
-\item \textsc{mSpatial1: glm.nb(crimes~(density+area))}
-\item \textsc{mSpatial2: glm.nb(crimes~(density+area)^2)}
-\item \textsc{mSpatial3: glm.nb(crimes~(density+area+region))}
-\item \textsc{mSpatial4: glm.nb(crimes~(density+area+region)^2)}
+\item \textsc{mSpatial1: glm.nb($crimes~(density+area)$)}
+\item \textsc{mSpatial2: glm.nb($crimes~(density+area)^2$)}
+\item \textsc{mSpatial3: glm.nb($crimes~(density+area+region)$)}
+\item \textsc{mSpatial4: glm.nb($crimes~(density+area+region)^2$)}
 \label{lis:spa}
+%\caption{Liste der unterschiedlichen r\"aumlichen Modelle.}
 \end{itemize}
 
 \begin{table}[ht]
@@ -201,27 +209,29 @@ Auch hier ist die selbe Beobachtung wieder zu machen, dass, mit Zunahme der Komp
   \hline
  & df & AIC & SPSE & Devienz\\ 
   \hline
-mSpatial1 & 4.00 & 1462.89 & 3003028556 & 95.0647\\ 
+  mSpatial1 & 4.00 & 1462.89 & 3003028556 & 95.0647\\ 
   mSpatial2 & 5.00 & 1463.57 & 3003008479 & 95.00924\\ 
   mSpatial3 & 6.00 & 1460.37 & 3003031244 & 94.74483\\ 
   mSpatial4 & 11.00 & 1444.15 & 3003082475 & 93.6144\\ 
    \hline
 \end{tabular}
+\caption{\"Ubersicht der Auswertung der Modelle, welche r\"aumliche Einflussgr\"o\ss{}en benutzen.}
 \label{tab:spa}
 \end{table}
 
 \par\smallskip
-Als dritte Gruppierung besteht aus \textit{pctymin} (der Anteil von Minderheiten an der Gesamtbev\"olkerung) und \textit{pctymale} (der Anteil der jungen m\"annlichen Bev\"olkerung (15-24 Jahre)) .
+Als dritte Gruppierung besteht aus \textit{pctymin} (der Anteil von Minderheiten an der Gesamtbev\"olkerung) und \textit{pctymale} (der Anteil der jungen m\"annlichen Bev\"olkerung (15-24 Jahre)). 
+\\
 In der vierten Gruppierung wurden alle L\"ohne miteinander kombiniert.
 Hier wurden jedoch keine weiteren Untersuchungen an der Komplexit\"atszunahme der Modelle gemacht.
 Grund daf\"ur ist, dass anhand der ersten beiden Gruppierungsbetrachtungen geschlussfolgert wurde, dass komplexere Modelle auch immer die besseren Akaike-, SPSE- und Devienzwerte haben.
-Ausnahme hierbei ist manchmal die Summe \"über die erwarteten Fehlerquadrate.
+Ausnahme hierbei ist manchmal die Summe \"uber die erwarteten Fehlerquadrate. \\
 Stattdessen wurden in diesen beiden Gruppierungen nur die jeweils komplexesten Modelle betrachtet, wie in Liste \ref{lis:pct} und Tabelle \ref{tab:pct} entnommen werden kann.
 
 
 \begin{itemize}
-\item mPct: \texttt{glm.nb(crimes~(pctmin+pctymale)^2)}
-\item mTrade: \textt{glm.nb(crimes~(1+wsta+wser+wtrd+wfir)^2)}
+\item \textsc{mPct: glm.nb($crimes~(pctmin+pctymale)^2$)}
+\item \textsc{mTrade: glm.nb($crimes~(1+wsta+wser+wtrd+wfir)^2$)}
 \label{lis:pct}
 \end{itemize}
 
@@ -238,8 +248,84 @@ mPct & 5.00 & 1612.85 \\
 \label{tab:pct}
 \end{table}
 
+\par\smallskip
+Aus dieser ersten Betrachtung heraus wurde schnell klar, dass besonders die r\"aumlichen Eigenschaften gute Voraussetzungen f\"ur ein geeignetes Modell sind.
+In Abbildung \ref{fig:dcc} ist ersichtlich, dass beide Gr\"o\ss{}en proportional zu einander sind und daher gut eine lineare Funktion approximiert werden kann.
+Auch im Vergleich der Residuenplots ist ersichtlich, dass \textit{density} ein gutes Merkmal ist.
+Je mehr Menschen auf engerem Raum wohnen, desto h\"oher ist die Wahrscheinlichkeit eines Verbrechens.
+Dies ist insofern schon schl\"ussig, da, wenn es mehr Menschen gibt, automatisch auch gleich die Wahrscheinlichkeit h\"oher sein muss, dass es mehr Delikte gibt, als wenn es weniger Menschen g\"abe.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{./jpgs/dcc.jpeg}
+\caption{Hier ist das Verh\"altnis Verbrechensanzahl / Bev\"olkerungsdichte veranschaulicht.}
+\label{fig:dcc}
+\end{figure}
+
+Anhand dessen wurde ausgehend von \textsc{mSpatial4} nach weiteren Modellen gesucht, um bessere Werte zu erhalten.
+Sie werden in der unten stehenden Tabelle aufgelistet
+
+\label{lis:pm}
+\begin{enumerate}
+\item \textsc{m3: glm.nb($rimes ~ 1 + area + density + area:density$)}
+\item \textsc{m3Wser: glm.nb($crimes ~ 1 + area + density + area:density + wser$)}
+\item \textsc{m3Opt: glm.nb($crimes ~ area + density + wser + area:density + density:wser$)}
+\item \textsc{m3Opt2: glm.nb($crimes ~ area + density + wser + area:density + density:wser + prbarr + prbpris$)}
+\item \textsc{m3O2: glm.nb($crimes ~ area + density + wser + prbarr + area:density + density:wser + density:prbarr + wser:prbarr + area:wser$)}
+\item \textsc{mT: glm.nb($crimes ~ area + density + wser + prbarr + taxpc + area:density + density:wser + density:prbarr + wser:prbarr + area:prbarr + prbarr:taxpc$)}
+\item \textsc{mR: glm.nb($crimes ~ area + density + wser + prbarr + region + area:density + density:wser + density:prbarr + wser:prbarr + area:prbarr + density:region + area:wser$)}
+\end{enumerate}
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{./jpgs/assdc.jpeg}
+\caption{Die Diagramme in der oberen H\"alfte zeigen jeweils die AIC-Werte (links oben) und die zueinander relativierten \hat{SPSE} (rechts oben) auf. Da es bei den \hat{assdc} einen gro\ss{}en Ausrei\ss{}er gibt, sind kaum Unterschiede ersichtlich. Daher wurden die zuletzt hinzugef\"ugten Modelle in der unteren Zeile noch einmal dargestellt. F\"ur die Indexierung der unteren Diagramme siehe \ref{lis:pm}. Die Indexierung der oberen Diagramme wird in Tabelle \ref{tab:assdc} noch einmal aufgef\"uhrt.
+\label{fig:assdc}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Index & df & AIC & Devienz\\ 
+  \hline
+  1 & mAll & 17.00 & 1432.29 & 92.88015 \\ 
+  2 & m1 & 3.00 & 1789.10 &  2118963611\\ 
+  3 & m2 & 5.00 & 1580.94 &  103.9891\\ 
+  4 & mSpatial4 & 11.00 & 1444.15 &  93.6144\\ 
+  5 & mPct & 5.00 & 1612.85 &  107.5929\\ 
+  6 & mTrade & 12.00 & 1541.39 &  99.01972\\ 
+  7 & m3 & 5.00 & 1463.57 &  95.00924\\ 
+  8 & m3Wser & 6.00 & 1454.43 &  94.50472\\ 
+  9 & m3Opt & 7.00 & 1442.88 & 93.96729 \\ 
+  10 & m3Opt2 & 9.00 & 1439.20 & 93.71965 \\ 
+  11 & m3O2 & 11.00 & 1422.23 & 93.04977 \\ 
+  12 & mT & 13.00 & 1428.82 & 93.08855 \\ 
+  13 & mR & 16.00 & 1405.77 & 92.27836 \\ 
+   \hline
+\end{tabular}
+\label{tab:assdc}
+\end{table}
+
+Bei \textsc{m3Wser} handelt es sich um die Formel, welche die selben Variablen nutzt wie \textsc{m3} und zus\"atzlich \textit{wser}.
+In der Betrachtung der Einflussgr\"o\ss{}en aus \textsc{mTrade} war aufgefallen, dass \textit{wser} die beste Verbesserung mit sich bringt.
+\textsc{m3Wser} wurde daraufhin mit Hife der Funktion \texttt{step()} optimiert.
+Das daraus resultierende Modell erhielt den Namen \textsc{m3Opt}.
+Dieses Modell wurde wiederum dadurch verbessert, indem die beiden Wahrscheinlichkeitsvariablen \textit{prbarr} und \textit{prbpris} hinzugef\"ugt wurden.
+Dieses Modell erhielt den Namen \textsc{m3Opt2}.
+Auch dieses Modell wurde unter der Verwendung von step() erweitert. Das Resultat war Modell \textsc{m3O2}.
+Im n\"achsten Schritt wurde eine weitere Variable, n\"amlich \textit{taxpc} (das Pro-Kopf-Steueraufkommen), hinzugef\"ugt.
+Durch diese Erweiterung wurde das Modell \textsc{mT} geschaffen.
+Ein alternatives Modell zu \textsc{mT} soll \textsc{mR} sein: Hier wurde stattdessen \textit{region} hinzugef\"ugt.
+Aus den Diagrammen aus Abbildung \ref{fig:assdc} kann geschlossen werden, dass durch das Hinzuf\"ugen von weiteren Variablen und anschlie\ss{}ende Optimierung die Vergleichswerte AIC und Devienz immer mehr minimieren.
+Tats\"achlich verhalten sich die \hat{SPSE}-Werte anders.
+Dies liegt wahrscheinlich daran, dass AIC und Devienz auch von der Anzahl der Einflussgr\"o\ss{}en beeinflusst werden, was bei den SPSE-Zahlen nicht der Fall ist. \\
+\par\smallskip
+Dennoch wurde sich dazu entschlossen, dass das Modell \textsc{mR} das auf diese Herangehensweise ausgesuchte Modell, das beste Modell ist.
 
 % TODO: Diagramm der Kriterienwerte von Modellen hinzufügen, damit ersichtlich wird, dass komplexere Modelle meist die geringereren fehler haben
+
+% TODO: zusammenfassender Residuenplot Übersicht notwendig.
 
 \subparagraph{Vergleich aller Modelle mit jeweils nur einem Merkmal}
 \subparagraph{Verwendung von step() und anschließende Minimierung des Modells}

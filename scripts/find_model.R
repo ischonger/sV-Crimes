@@ -81,30 +81,11 @@ plot(mTrade, which = 1)
 plot(crimes.data$crimes, crimes.data$prbarr, pch = 1, col = "blue", xlab = "crimes", ylab = "probability")
 points(crimes.data$crimes, crimes.data$prbpris, pch = 1, col = "red")
 
-mArrest <- glm.nb(crimes~(1+prbarr), data = crimes.data)
-plot(mArrest, which = 1)
-AIC(m0, mAll, m1, m1Nb, m2, m2Nb, mTrade, mArrest)
-cv(m0); cv(mAll); cv(m1); cv(m1Nb); cv(m2); cv(m2Nb); cv(mTrade)
-add1(mArrest, scope = ~(1+crimes.data$prbarr))
-
-#maxY <- max(crimes.data$crimes)
-#maxY
-#normY <- crimes.data$crimes/maxY
-#normY
-#plot(normY, crimes.data$prbarr)
-#mArrestNorm <- glm.nb(normY~(1+prbarr), data = crimes.data)
-#AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm)
-
-mArea <- glm.nb(crimes~1+area, data = crimes.data)
-plot(mArea, which = 1)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArea)
-cv(m0); cv(mAll); cv(m1); cv(m1Nb); cv(m2); cv(m2Nb); cv(mTrade); cv(mArrest); cv(mArea)
-plot(crimes.data$crimes, crimes.data$area)
-
-plot(crimes.data$crimes, crimes.data$density)
+plot(crimes.data$crimes, crimes.data$density, col = "red", pch = 16, xlab = "crimes", ylab = "density")
 mDensity <- glm.nb(crimes~1+density, data = crimes.data)
 plot(mDensity, which = 1)
-AIC(m0, mAll, mAll2, m1, m2, mTrade, mArrest, mArrestNorm, mArea, mDensity)
+AIC(mAll, m1, m2, mSpatial1, mSpatial2, mSpatial3, mSpatial4, mPct, mTrade)
+plot(AIC(mAll, m1, m2, mSpatial1, mSpatial2, mSpatial3, mSpatial4, mPct, mTrade)$AIC, pch = 16, ylab = "AIC")
 
 m3 <- glm.nb(crimes~1+area+density+area:density, data = crimes.data)
 AIC(m0, mAll, m1,m1Nb, m2, m2Nb, mTrade, mArrest, mArea, mDensity, m3)
