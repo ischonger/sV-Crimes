@@ -40,3 +40,9 @@ plot(allD[1,], pch = 16, ylab = "Devienz", col = "green")
 par(mfrow=c(1,1))
 plot(aics$AIC, pch = 16, xlab = "Modelle", ylab = "AIC", col = "red")
 plot(cvC, pch =16, xlab = "Modelle", ylab = "rel. SPSE")
+
+# 3.6
+par(mfrow=c(1,3))
+plot(aics$AIC, pch = 16, ylab = "AIC", col = "red")
+plot(cvC[1,], pch = 16, ylab = "rel. SPSE" )
+plot(cvD[1,], col = "green", pch = 16, ylab = "Devienz")

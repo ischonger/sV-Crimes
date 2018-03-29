@@ -508,7 +508,31 @@ mCor & 7.00 & 1472.06 \\
 \end{table}
 
 \subsubsection{Die Gewinnermodelle}
+Tats\"achlich schneidet im Vergleich zu den anderen drei Herangehensweisen die explorative am besten ab, wie anhand von Tabelle \ref{tab:wic} und Abbildung \ref{fig:wic} nachvollzogen werden kann.
+Dies liegt aber auch vor allem daran, dass \textsc{mExplorativ} die geringste Anzahl an Eingabevariablen besitzt.
 
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ # & df & AIC & $\hat{SPSE}$ & Devienz  \\ 
+  \hline
+	1 & mExplorativ & 16.00 & 1405.77 & 0.9999914 & 92.27836 \\ 
+	2 & mEinzeln & 8.00 & 1468.70 &  0.999921 & 94.33151\\   
+  	3 & mStep & 9.00 & 1457.60 &  1 & 94.97083\\ 
+    4 & mCor & 7.00 & 1472.06 &  0.9999654 & 95.23178\\ 
+   \hline
+\end{tabular}
+\caption{Kriterien der vier Gewinnermodelle}
+\label{tab:wic}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{./jpgs/wic.jpeg}
+\caption{Graphische Veranschaulichung der verschiedenen Korrelationswerte.}
+\label{fig:wic}
+\end{figure} 
 \newpage 
 \subsection{Simulationsaufgabe}
 \paragraph{Beschreibung simulation()}

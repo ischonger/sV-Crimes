@@ -43,7 +43,7 @@ plot(crimes.data$crimes, crimes.data$wfir)
 
 corV <- c(-0.2994541, -0.008989058, -0.008989058, 0.9091849, 0.1170337, 0.2002482, 0.03044025, 
           0.03044025, 0.1690798, 0.4683103, 0.3094517, 0.4995101, 0.623725, 0.5460246)
-plot(corV)
+plot(corV, pch = 16, ylab = "Korrelation mit crimes", col = 6)
 tail(sort(corV), 5)
 mCor <- glm.nb(formula = crimes~(density+wser+wfir+wtrd+pctymale), data = crimes.data)
 cv(mCor); AIC(mCor)
@@ -51,8 +51,10 @@ step(mCor, ~(density+wser+wfir+wtrd+pctymale)^2)
 mCorO <- glm.nb(formula = crimes ~ density + wser + wfir + wtrd + pctymale + 
                   wfir:wtrd + density:wser, data = crimes.data, init.theta = 3.468214965, 
                 link = log)
-cv(mCor); cv(mCorO); cv(mR)
-AIC(mCor, mCorO, m3Opt)
+c <- cbind(cv(mCor), cv(mCorO), cv(mR))
+c <- c[1,]/max(c[1,])
+plot(c)
+AIC(mCor, mCorO, mR)
 # ergebnis ähnlich gut wie das aus versuch 1.
 
 ######### bestes ergebnis: mCor
