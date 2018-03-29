@@ -88,7 +88,7 @@ AIC(mAll, m1, m2, mSpatial1, mSpatial2, mSpatial3, mSpatial4, mPct, mTrade)
 plot(AIC(mAll, m1, m2, mSpatial1, mSpatial2, mSpatial3, mSpatial4, mPct, mTrade)$AIC, pch = 16, ylab = "AIC")
 
 m3 <- glm.nb(crimes~1+area+density+area:density, data = crimes.data)
-AIC(m0, mAll, m1,m1Nb, m2, m2Nb, mTrade, mArrest, mArea, mDensity, m3)
+AIC(m0, mAll, m1, m2, mTrade, m3)
 cv(m0); cv(mAll); cv(m1); cv(m1Nb); cv(m2); cv(m2Nb); cv(mTrade); cv(mArrest); cv(mArea); cv(mDensity); cv(m3)
 # crimes~1+area+density+area:density => 1549
 # cpa~1+area:density => 581
@@ -163,24 +163,34 @@ cvTest[1,]
 plot(crimes.data$crimes, crimes.data$area)
 plot(crimes.data$crimes, crimes.data$region)
 
-aics <- AIC(m0, mAll, m1, m2, mTrade, mArrest, mArea, mDensity, 
-            m3, m3Wser, m3Opt, m3Opt2, m3O2, mT, mR)
-plot(aics$AIC)
+aics <- AIC(mAll, m1, m2, mSpatial4, mPct, mTrade, m3, m3Wser, m3Opt, m3Opt2, m3O2, mT, mR)
+plot(aics$AIC, pch = 16, ylab = "AIC")
 aics$AIC
 min(aics$AIC)
 
 # vergleiche die empirisch gefundenen modelle mittels kreuzvalidierung:
-cvE <- cbind(cv(m0), cv(mAll), cv(m1), cv(m2), cv(mTrade), cv(mArrest),
-             cv(mArea), cv(mDensity),
+cvE <- cbind(cv(mAll), cv(m1), cv(m2), cv(mSpatial4), cv(mPct), cv(mTrade), 
              cv(m3), cv(m3Wser), cv(m3Opt), cv(m3Opt2), cv(m3O2), 
              cv(mT), cv(mR))
 cvC <- cvE[1,]/max(cvE[1,])
-plot(cvC)
-cvB7 <- cbind(cv(m3Wser), cv(m3Opt), cv(m3Opt2), cv(m3O2), 
-              cv(m3O2_p), cv(mT), cv(mR))
+plot(cvE[1,])
+cvC
+plot(cvC, pch = 16, ylab = "rel. SPSE")
+cvB7 <- cbind(cv(m3), cv(m3Wser), cv(m3Opt), cv(m3Opt2), cv(m3O2), 
+              cv(mT), cv(mR))
 cvB7r<-cvB7[1,]/max(cvB7[1,]) 
 cvB7r
-plot(cvB7r)
+plot(cvB7r, pch = 16, ylab = "rel. SPSE")
+
+cvD7 <- cbind(deviance(m3), deviance(m3Wser), deviance(m3Opt), deviance(m3Opt2), deviance(m3O2), 
+              deviance(mT), deviance(mR))
+cvD7r <- cvD7/max(cvD7)
+plot(cvD7[1,], pch = 16, ylab = "Devienz")
+
+cvDa <- cbind(deviance(mAll), deviance(m1), deviance(m2), deviance(mSpatial4), deviance(mPct), deviance(mTrade), 
+              deviance(m3), deviance(m3Wser), deviance(m3Opt), deviance(m3Opt2), deviance(m3O2), 
+              deviance(mT), deviance(mR))
+
 ### kann man cv hier trauen?
 
 

@@ -331,11 +331,71 @@ Dennoch wurde sich dazu entschlossen, dass das Modell \textsc{mR} das auf diese 
 
 % TODO: zusammenfassender Residuenplot Übersicht notwendig.
 
-\subparagraph{Vergleich aller Modelle mit jeweils nur einem Merkmal}
-\subparagraph{Verwendung von step() und anschließende Minimierung des Modells}
-\subparagraph{strukturierte Suche nach einem geeigneten Modell}
-\subparagraph{Verwendung von cor()}
-\subparagraph{Die Gewinnermodelle}
+\subsubsection{Vergleich aller Modelle mit jeweils nur einem Merkmal}
+Der Ansatz bei dieser Herangehensweise ist, dass jedes Merkmal in ein einzelnes Modell gesetzt wird.
+Die daraus resultierenden Modelle werden dann, wie in der ersten Herangehensweise mittels AIC, $\hat{SPSE}$ und Devienz verglichen.
+Tabelle \ref{tab:asv} listet die unterschiedlichen Modelle auf und liefert besagte Kriterien, die in Abbildung \ref{fig:asv} in drei Diagrammen dargestellt werden.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+  & name & df & AIC & rel. $\hat{SPSE}$ & Devienz \\ 
+  \hline
+  1 & mPrbarr & 3.00 & 1584.70 & 0.999975 &  104.8274\\ 
+  2 & mPrbpris & 3.00 & 1612.10 & 0.999997 & 107.9817 \\ 
+  3 & mPolpc & 3.00 & 1612.10 & 0.999997 &  107.9817\\ 
+  4 & mDensity & 3.00 & 1494.42 & 0.9998183 &  96.96636\\ 
+  5 & mArea & 3.00 & 1611.75 & 0.9999964 &  107.9404\\ 
+  6 & mTaxpc & 3.00 & 1604.40 & 0.9999852 & 107.0648 \\ 
+  7 & mRegion & 4.00 & 1594.27 &  0.999976 & 105.6683\\ 
+  8 & mPctmin & 3.00 & 1614.37 &  1 & 108.2571\\ 
+  9 & mPctymale & 3.00 & 1609.49 & 0.99999 &  107.6686\\ 
+  10 & mWcon & 3.00 & 1584.39 &  0.9999629 & 104.799\\ 
+  11 & mWsta & 3.00 & 1598.82 &  0.9999806 & 106.4173\\ 
+  12 & mWser & 3.00 & 1568.89 &  0.9999449 & 103.1563\\ 
+  13 & mWtrd & 3.00 & 1570.84 &  0.9999284 & 103.3589\\ 
+  14 & mWfir & 3.00 & 1550.43 &  0.9999175 & 101.349\\ 
+   \hline
+\end{tabular}
+\caption{Auflistung aller Modelle, die nur eine Eingabevariable nutzen.}
+\label{tab:asv}
+\end{table}
+ 
+\begin{figure}
+\centering
+\includegraphics[scale=.7]{./jpgs/asvc.jpeg}
+\caption{Veranschaulichung von Akaike-Informationsma\ss{}, $\hat{SPSE}$ und Devienz der Modelle, die jeweils nur eine Eingabevariable besitzen.}
+\label{fig:asv}
+\end{figure} 
+ 
+Bei Betrachtung von Abbildung \ref{fig:asv} f\"allt auf, dass sich alle drei Kriterien \"ahnlich verhalten.
+So besitzt \textsc{mDensity} (Nummer 4) in allen drei F\"allen den gerinsten Wert. \\
+Dar\"uber hinaus haben die letzten Modelle, welche die L\"ohne als einzige Eingabe haben, in allen drei Ansichten die n\"achst geringeren Werte.
+Hier wurde sich dazu entschieden, die Variablen \textit{density}, \textit{wser}, \textit{wsta}, \textit{wtrd} und \textit{wfir} in ein Modell \textsc{mSingles} als vorl\"aufiges Resultat zusammenzufassen. \\
+Dieses Modell wurde nachtr\"aglich noch einmal mit \texttt{step()} optimiert, sodass ein weiteres Modell \textsc{mSinglesOpt} vorliegt.
+In Tabelle \ref{tab:svw} wird ersichtlich, dass das beste Modell nach dieser Herangehensweise das Modell \textsc{mSinglesOpt} ist. \\
+Tats\"achlich handelt es sich um ein relativ gutes Ergebnis, allerdings sind die Modelle aus der ersten Herangehensweise effektiver.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & df & AIC \\ 
+  \hline
+mSinglesOpt & 8.00 & 1468.70 \\ 
+  m3O2 & 11.00 & 1422.23 \\ 
+  mR & 16.00 & 1405.77 \\ 
+   \hline
+\end{tabular}
+\caption{AIC-Wert des Ergebnismodells durch Untersuchung der einzelnen Modelle im Vergleich zu den besten Werten aus der erste Herangehensweise.}
+\label{tab:svw}
+\end{table}
+
+\subsubsection{Verwendung von step() und anschließende Minimierung des Modells}
+\subsubsection{strukturierte Suche nach einem geeigneten Modell}
+\subsubsection{Verwendung von cor()}
+\subsubsection{Die Gewinnermodelle}
 
 \newpage 
 \subsection{Simulationsaufgabe}
