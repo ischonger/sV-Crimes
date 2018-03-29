@@ -441,11 +441,13 @@ m14Da <- glm.nb(formula = crimes ~ density + area + pctmin + wsta +
                 data = crimes.data)
 cv(mSinglesOpt); cv(m1); cv(m2); cv(m3); cv(m4); cv(m5); cv(m6); cv(m7Wfir); cv(m8Wtrd); cv(m9Wcon); cv(m10Wser); cv(m12Ap); cv(m13Aw); cv(m14Dw); cv(m14Dp); cv(m14Da)
 AIC(mSinglesOpt, m1, m2, m3, m4, m5, m6, m7Wfir, m8Wtrd, m9Wcon, m10Wser, m12Ap, m13Aw, m14Dw, m14Dp, m14Da)
+aics <- AIC(mSinglesOpt, m1, m2, m3, m4, m5, m6, m7Wfir, m8Wtrd, m9Wcon, m10Wser, m12Ap, m13Aw, m14Dw, m14Dp, m14Da)
+plot(aics$AIC, pch = 16, xlab = "Modelle", ylab = "AIC", col = "red")
 
 cvC <- cbind(cv(mSinglesOpt), cv(m1),cv(m2),cv(m3),cv(m4),cv(m5),cv(m6),cv(m7Wfir),cv(m8Wtrd),cv(m9Wcon),cv(m10Wser),cv(m12Ap),cv(m13Aw))
 plot(cvC[1,])  
 cvC <- cvC[1,]/max(cvC[1,])
-plot(cvC)
+plot(cvC, pch =16, xlab = "Modelle", ylab = "SPSE")
 min(cvC)
 
 # bestes ohne intersect-entfernung: m9Wcon

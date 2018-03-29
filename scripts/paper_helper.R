@@ -37,6 +37,6 @@ plot(allCV[1,], pch = 16, ylab = "rel. SPSE")
 plot(allD[1,], pch = 16, ylab = "Devienz", col = "green")
 
 # 3.5
-par(mfrow=c(1,2))
+par(mfrow=c(1,1))
 plot(aics$AIC, pch = 16, xlab = "Modelle", ylab = "AIC", col = "red")
 plot(cvC, pch =16, xlab = "Modelle", ylab = "rel. SPSE")

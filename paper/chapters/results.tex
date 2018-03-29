@@ -332,6 +332,7 @@ Dennoch wurde sich dazu entschlossen, dass das Modell \textsc{mR} das auf diese 
 % TODO: zusammenfassender Residuenplot Übersicht notwendig.
 
 \subsubsection{Vergleich aller Modelle mit jeweils nur einem Merkmal}
+\label{sec:sv}
 Der Ansatz bei dieser Herangehensweise ist, dass jedes Merkmal in ein einzelnes Modell gesetzt wird.
 Die daraus resultierenden Modelle werden dann, wie in der ersten Herangehensweise mittels AIC, $\hat{SPSE}$ und Devienz verglichen.
 Tabelle \ref{tab:asv} listet die unterschiedlichen Modelle auf und liefert besagte Kriterien, die in Abbildung \ref{fig:asv} in drei Diagrammen dargestellt werden.
@@ -393,6 +394,7 @@ mSinglesOpt & 8.00 & 1468.70 \\
 \end{table}
 
 \subsubsection{Verwendung von step() und anschlie\ss{}ende Minimierung des Modells}
+\label{sec:ste}
 Hier wurde zu Beginn die Funktion \texttt{step()} mit allen m\"oglichen Eingabevariablen und all ihren Wechselwirkungen benutzt.
 Dabei kam zwar ein Modell heraus, dessen Residuenplot eine Nulllinie ist, jedoch ist es so kompliziert und lang, dass es sich jeder Deutung entzieht. \\
 Hier wurde ein top-down Ansatz gew\"ahlt: \\
@@ -442,11 +444,69 @@ mSinglesOpt & 8.00 & 1468.70 \\
    \hline
 \end{tabular}
 \caption{Die Modelle sind hier nach ihrer Iteration benannt.}
-\label{tab:sc}
+\end{table}
+ 
+\subsubsection{Verwendung von cor()}
+Analog zu Kapitel \ref{sec:sv} wurden hier die Korrelationen zwischen der Zielvariable \textit{crimes} und den einzelnen Eingabevariablen mithilfe von \textt{cor()} berechnet.
+Daraus resultieren Tabelle \ref{tab:cor} und Abbildung \ref{fig:cor}.
+In dieser Abbildung ist eine etwas gr\"o\ss{}ere L\"ucke in dem Intervall $[0.2, 0.309]$.
+Alle Werte dar\"uber wurden in das 'Siegermodell' eingetragen.
+Daraus resultiert ein Modell mit dem Formelaufruf:
+\begin{equation}
+crimes \sim (density+wser+wfir+wtrd+pctymale)
+\end{equation} 
+Bei der Betrachtung von Tabelle \ref{tab:co2} f\"allt auf, dass kein sehr gutes Modell gefunden wurde.
+Dies liegt daran, dass hier keine Wechselwirkungen zwischen den Eingabeparametern beachtet wurden.
+Interessant ist aber zu sehen, dass dadurch hier einige Parameter aus der Lohn-Gruppierung hinzugef\"ugt wurden, die in den anderen Herangehensweisen, wo die Wechselwirkungen betrachtet wurden, nicht hinzugef\"ugt wurden.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+  # & name & Korrelation mit \textit{crimes} \\ 
+  \hline
+  1 & mPrbarr & -0.2994541\\ 
+  2 & mPrbpris & -0.008989058 \\ 
+  3 & mPolpc & -0.008989058\\ 
+  4 & mDensity & 0.9091849\\ 
+  5 & mArea & 0.1170337\\ 
+  6 & mTaxpc &  0.2002482\\ 
+  7 & mRegion & 0.03044025\\ 
+  8 & mPctmin & 0.03044025\\ 
+  9 & mPctymale & 0.1690798\\ 
+  10 & mWcon & 0.4683103\\ 
+  11 & mWsta & 0.3094517\\ 
+  12 & mWser & 0.4995101\\ 
+  13 & mWtrd & 0.623725\\ 
+  14 & mWfir & 0.5460246\\ 
+   \hline
+\end{tabular}
+\caption{Auflistung aller Korrelationen der Eingabevariablen mit \textit{crimes}.}
+\label{tab:cor}
 \end{table}
 
-\subsubsection{strukturierte Suche nach einem geeigneten Modell}
-\subsubsection{Verwendung von cor()}
+\begin{figure}
+\centering
+\includegraphics[scale=.7]{./jpgs/corc.jpeg}
+\caption{Graphische Veranschaulichung der verschiedenen Korrelationswerte.}
+\label{fig:cor}
+\end{figure} 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & df & AIC \\ 
+  \hline
+mCor & 7.00 & 1472.06 \\ 
+  mCor mit step() optimiert & 9.00 & 1456.20 \\ 
+  mR & 16.00 & 1405.77 \\ 
+   \hline
+\end{tabular}
+\caption{Vergleich der Modelle mit dieser Herangehensweise mit dem besten Modell aus der ersten Herangehensweise.}
+\label{tab:co2}
+\end{table}
+
 \subsubsection{Die Gewinnermodelle}
 
 \newpage 
