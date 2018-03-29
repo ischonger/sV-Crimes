@@ -1,12 +1,7 @@
 \subsection{Modellwahl}
 Wie bereits erw\"ahnt, wurden f\"unf unterschiedliche Herangehensweisen betrachtet, um ein geeignetes Modell zu finden.
-Eine jede dieser Herangehensweisen soll am Ende ein 'bestes' Modell liefern.
-Am Ende werden dann all diese 'Gewinnermodelle' noch einmal miteinander verglichen, um ein finales Modell zu ermitteln. \\
-Zun\"achst wird in Kapitel \ref{sec:wdv} auf die w\"ahrend der Untersuchung angenommene  Verteilung angegangen. 
-Bevor dann die unterschiedlichen Herangehensweisen vorgestelt werden, wird die Einflussgr\"o\ss{}e \textit{region} in dem Kapitel \ref{sec:preg} genauer untersucht.
 
-\subsubsection{Wahl der Verteilung}
-\label{sec:wdv}
+\paragraph{Wahl der Verteilung}
 Wie Osgood in [Osgood2000]\footnote{Vgl.: D.Wayne Osgood: Poisson-Based Regression Analysis of Aggregate
 Crime Rates, Journal of Quantitative Criminology, Vol. 16, No. 1, 2000}
 schreibt, ist es von Vorteil Poissonverteilungen zu nutzen, um Kriminalit\"atsraten zu analysieren.
@@ -66,7 +61,7 @@ Hier sieht man recht gut, dass die Verbrechenszahlen eher zu einer negativen Bin
 
 
 \label{sec:preg}
-\subsubsection{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
+\paragraph{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
 Bei der Einflussgr\"o\ss{}e \textit{region} handelt es sich um eine dichotome Dummy-Variable.
 Sie gibt an in welchem Bereich des Bundesstaates (= die Region) sich das County befindet.
 Es gibt drei m\"ogliche Werte, welche diese Variable annehmen kann: \textit{central}, \textit{west} und \textit{other}.
@@ -130,8 +125,8 @@ Daher wurde diese Dummy-Variable nicht weiter ver\"andert.
 \textsf{R} behandelt solche Variablen automatisch mithilfe von \texttt{as.factor()} als diskrete Zahlen.
 
 
-\subsubsection{Herangehensweisen}
-\paragraph{explorative Herangehensweise}
+\paragraph{Herangehensweisen}
+\subparagraph{explorative Herangehensweise}
 Um ein gutes Gef\"uhl f\"ur die Merkmalsvektoren zu bekommen, wurden zun\"achst einige Modelle ausprobiert und mittels AIC verglichen.
 Damit ein Vergleichswert nach dem Akaike-Ma\ss{} vorhanden war, wurde ein komplettes Modell angenommen, das aus allen vorhandenen Merkmalen besteht. Dieses Modell hei\ss{}t \textsc{mAll}. Die entsprechende Formel sieht so aus:
 \begin{equation}\begin{split}
@@ -279,32 +274,31 @@ Sie werden in der unten stehenden Tabelle aufgelistet
 \begin{figure}
 \centering
 \includegraphics[scale=1]{./jpgs/assdc.jpeg}
-\caption{Die Diagramme in der oberen H\"alfte zeigen jeweils die AIC-Werte (links oben) und die zueinander relativierten \hat{SPSE} (rechts oben) auf. Da es bei den \hat{assdc} einen gro\ss{}en Ausrei\ss{}er gibt, sind kaum Unterschiede ersichtlich. Daher wurden die zuletzt hinzugef\"ugten Modelle in der unteren Zeile noch einmal dargestellt. F\"ur die Indexierung der unteren Diagramme siehe \ref{lis:pm}. Die Indexierung der oberen Diagramme wird in Tabelle \ref{tab:assdc} noch einmal aufgef\"uhrt.
+\caption{Die Diagramme in der oberen H\"alfte zeigen jeweils die AIC-Werte (links oben) und die zueinander relativierten \hat{SPSE} (rechts oben) auf. Da es bei den \hat{assdc} einen gro\ss{}en Ausrei\ss{}er gibt, sind kaum Unterschiede ersichtlich. Daher wurden die zuletzt hinzugef\"ugten Modelle in der unteren Zeile noch einmal dargestellt. F\"ur die Indexierung der unteren Diagramme siehe \ref{lis:pm}. Die Indexierung der oberen Diagramme wird in Tabelle \ref noch einmal aufgef\"uhrt.}
 \label{fig:assdc}
 \end{figure}
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{rrrrr}
+\begin{tabular}{rrr}
   \hline
- & Index & df & AIC & Devienz\\ 
+ & df & AIC \\ 
   \hline
-  1 & mAll & 17.00 & 1432.29 & 92.88015 \\ 
-  2 & m1 & 3.00 & 1789.10 &  2118963611\\ 
-  3 & m2 & 5.00 & 1580.94 &  103.9891\\ 
-  4 & mSpatial4 & 11.00 & 1444.15 &  93.6144\\ 
-  5 & mPct & 5.00 & 1612.85 &  107.5929\\ 
-  6 & mTrade & 12.00 & 1541.39 &  99.01972\\ 
-  7 & m3 & 5.00 & 1463.57 &  95.00924\\ 
-  8 & m3Wser & 6.00 & 1454.43 &  94.50472\\ 
-  9 & m3Opt & 7.00 & 1442.88 & 93.96729 \\ 
-  10 & m3Opt2 & 9.00 & 1439.20 & 93.71965 \\ 
-  11 & m3O2 & 11.00 & 1422.23 & 93.04977 \\ 
-  12 & mT & 13.00 & 1428.82 & 93.08855 \\ 
-  13 & mR & 16.00 & 1405.77 & 92.27836 \\ 
+mAll & 17.00 & 1432.29 \\ 
+  m1 & 3.00 & 1789.10 \\ 
+  m2 & 5.00 & 1580.94 \\ 
+  mSpatial4 & 11.00 & 1444.15 \\ 
+  mPct & 5.00 & 1612.85 \\ 
+  mTrade & 12.00 & 1541.39 \\ 
+  m3 & 5.00 & 1463.57 \\ 
+  m3Wser & 6.00 & 1454.43 \\ 
+  m3Opt & 7.00 & 1442.88 \\ 
+  m3Opt2 & 9.00 & 1439.20 \\ 
+  m3O2 & 11.00 & 1422.23 \\ 
+  mT & 13.00 & 1428.82 \\ 
+  mR & 16.00 & 1405.77 \\ 
    \hline
 \end{tabular}
-\label{tab:assdc}
 \end{table}
 
 Bei \textsc{m3Wser} handelt es sich um die Formel, welche die selben Variablen nutzt wie \textsc{m3} und zus\"atzlich \textit{wser}.
@@ -316,12 +310,7 @@ Dieses Modell erhielt den Namen \textsc{m3Opt2}.
 Auch dieses Modell wurde unter der Verwendung von step() erweitert. Das Resultat war Modell \textsc{m3O2}.
 Im n\"achsten Schritt wurde eine weitere Variable, n\"amlich \textit{taxpc} (das Pro-Kopf-Steueraufkommen), hinzugef\"ugt.
 Durch diese Erweiterung wurde das Modell \textsc{mT} geschaffen.
-Ein alternatives Modell zu \textsc{mT} soll \textsc{mR} sein: Hier wurde stattdessen \textit{region} hinzugef\"ugt.
-Aus den Diagrammen aus Abbildung \ref{fig:assdc} kann geschlossen werden, dass durch das Hinzuf\"ugen von weiteren Variablen und anschlie\ss{}ende Optimierung die Vergleichswerte AIC und Devienz immer mehr minimieren.
-Tats\"achlich verhalten sich die \hat{SPSE}-Werte anders.
-Dies liegt wahrscheinlich daran, dass AIC und Devienz auch von der Anzahl der Einflussgr\"o\ss{}en beeinflusst werden, was bei den SPSE-Zahlen nicht der Fall ist. \\
-\par\smallskip
-Dennoch wurde sich dazu entschlossen, dass das Modell \textsc{mR} das auf diese Herangehensweise ausgesuchte Modell, das beste Modell ist.
+Ein alternatives Modell zu \textsc{mT} soll \textsc{mR} sein: Hier wurde stattdessen \textit{region} hinzugef\"ugt.  
 
 % TODO: Diagramm der Kriterienwerte von Modellen hinzufügen, damit ersichtlich wird, dass komplexere Modelle meist die geringereren fehler haben
 
