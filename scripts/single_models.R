@@ -20,7 +20,8 @@ mWfir <- glm.nb(crimes~(1+wfir), data = crimes.data)
 allA <- AIC(mPrbarr, mPrbpris, mPolpc, mDensity, mArea, 
             mTaxpc, mRegion, mPctmin, mPctymale, mWcon, mWsta, mWser, mWtrd, mWfir)
 allA
-plot(allA$AIC)
+plot(allA$AIC, pch = 16, ylab = "AIC")
+
 allB <- BIC(mPrbarr, mPrbpris, mPolpc, mDensity, mArea, 
             mTaxpc, mRegion, mPctmin, mPctymale, mWcon, mWsta, mWser, mWtrd, mWfir)
 allB
@@ -30,7 +31,15 @@ allCV <- cbind(cv(mPrbarr), cv(mPrbpris), cv(mPolpc), cv(mDensity), cv(mArea),
                cv(mTaxpc), cv(mRegion), cv(mPctmin), cv(mPctymale), cv(mWcon), cv(mWsta), 
                cv(mWser), cv(mWtrd), cv(mWfir))
 allCV
+allCV <- allCV/max(allCV[1,])
 plot(allCV[1,])
+
+allD <- cbind(deviance(mPrbarr), deviance(mPrbpris), deviance(mPolpc), deviance(mDensity), deviance(mArea), 
+               deviance(mTaxpc), deviance(mRegion), deviance(mPctmin), deviance(mPctymale), deviance(mWcon), deviance(mWsta), 
+               deviance(mWser), deviance(mWtrd), deviance(mWfir))
+allD
+allD <- allCV/max(allCV[1,])
+plot(allD[1,])
 
 mSingles <- glm.nb(crimes~(1+density+wsta+wser+wtrd+wfir), data = crimes.data)
 plot(mSingles, which = 1)
@@ -41,7 +50,9 @@ mSinglesOpt <- glm.nb(formula = crimes ~ density + wser + wtrd + wfir + wser:wtr
                         density:wser, data = crimes.data, init.theta = 2.993441708, 
                       link = log)
 plot(mSinglesOpt, which = 1)
-cv(mSinglesOpt); cv(mR);
+c <- cbind(cv(mSinglesOpt), cv(mR))
+c <- c[1,]/max(c[1,])
+plot(c)
 AIC(mSinglesOpt, m3O2, mR)
 # aic-werte liegen wesentlich näher aneinander als cv-werte.
 

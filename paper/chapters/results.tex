@@ -392,7 +392,59 @@ mSinglesOpt & 8.00 & 1468.70 \\
 \label{tab:svw}
 \end{table}
 
-\subsubsection{Verwendung von step() und anschließende Minimierung des Modells}
+\subsubsection{Verwendung von step() und anschlie\ss{}ende Minimierung des Modells}
+Hier wurde zu Beginn die Funktion \texttt{step()} mit allen m\"oglichen Eingabevariablen und all ihren Wechselwirkungen benutzt.
+Dabei kam zwar ein Modell heraus, dessen Residuenplot eine Nulllinie ist, jedoch ist es so kompliziert und lang, dass es sich jeder Deutung entzieht. \\
+Hier wurde ein top-down Ansatz gew\"ahlt: \\
+Es wurde so fortgefahren, dass immer ein Parameter aus der Formel entfernt wurde.
+Ist der AIC-Wert im Vergleich zum Vorg\"angermodell geringer, aber noch nicht so hoch wie der aus dem Modell \textsc{mSinglesOpt} oder \textsc{mR} aus den anderen Herangehensweisen, wird das gefundene Modell beibehalten, andererseits ein anderer Parameter entfernt. \\
+Das auf diese Weise gefundene Modell benutzt die Formel 
+\begin{equation}
+crimes \sim density + area + pctmin + wsta + density:area + density:pctmin
+\end{equation}
+als Formelaufruf. 
+\par\smallskip
+
+Abbildung \ref{fig:sc} zeigt den Verlauf der Minimierung der AIC-Werte.
+Das Verfahren wurde 14 mal ausgef\"uhrt.
+Interessant in Abbildung \ref{fig:sc} ist der gro\ss{}e Sprung nach der vierten Iteration.
+Bis dahin wurden die Einflussgr\"o\ss{}en \textit{prbarr}, \textit{prbpris}, \textit{region} und \textit{polpc} entfernt. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=.7]{./jpgs/sc.jpeg}
+\caption{Veranschaulichung von Akaike-Informationsma\ss{}, $\hat{SPSE}$ und Devienz der Modelle, die jeweils nur eine Eingabevariable besitzen.}
+\label{fig:sc}
+\end{figure} 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & df & AIC \\ 
+  \hline
+mSinglesOpt & 8.00 & 1468.70 \\ 
+  m1 & 77.00 & 1309.12 \\ 
+  m2 & 63.00 & 1356.44 \\ 
+  m3 & 50.00 & 1369.25 \\ 
+  m4 & 38.00 & 1367.22 \\ 
+  m5 & 28.00 & 1417.72 \\ 
+  m6 & 23.00 & 1425.96 \\ 
+  m7 & 20.00 & 1426.40 \\ 
+  m8 & 17.00 & 1432.59 \\ 
+  m9 & 14.00 & 1440.23 \\ 
+  m10 & 11.00 & 1458.83 \\ 
+  m11 & 10.00 & 1459.56 \\ 
+  m12 & 9.00 & 1457.60 \\ 
+  m13 & 8.00 & 1467.60 \\ 
+  m14 & 8.00 & 1455.82 \\ 
+  m15 & 8.00 & 1458.50 \\ 
+   \hline
+\end{tabular}
+\caption{Die Modelle sind hier nach ihrer Iteration benannt.}
+\label{tab:sc}
+\end{table}
+
 \subsubsection{strukturierte Suche nach einem geeigneten Modell}
 \subsubsection{Verwendung von cor()}
 \subsubsection{Die Gewinnermodelle}
