@@ -151,14 +151,15 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031
   ## berechne fisher-informationsmatrix: I(beta) = X^t V X, X ist Designmatrix, V ist diag(Vars)
   betas.dvm <- c(var(betas)[1,1], var(betas)[2,2]) # diagonale varianz-matrix
   betas.I  <- t(betas.dm)%*%diag(betas.dvm)%*%betas.dm
+  betas.I <- solve(betas.I)
+  betas.hat <- rnorm(betas.I)
   
-  
-  md <- abs(as.matrix(c.cov) - betas.I) # matrix deviation
+  md <- abs(as.matrix(c.cov) - betas.hat) # matrix deviation
   #print(md)
   return(cbind(md[1,1], md[2,2]))
 }
 
-
+simulation(model = m1, seed = 986543)
 
 # compare vergleicht zwei simulationen miteinander
 # simulation() gibt den betrag des abstandes von 
@@ -172,12 +173,12 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031
 # also ist die erste simulation besser,
 # ist eine der zahlen kleiner als 1, so ist die zweite simulation besser
 # credentials of simulation 1, credentials of simulation 2
-compare <- function(loops = 10) {
+compare <- function(loops = 10, a2 = 3) {
   rm <- matrix(ncol = 4, nrow = loops)
   for(i in 1:loops) {
-    betas1 <- simulation(model = m1, seed = sample(1:100000, 1), amount = 30)
+    betas1 <- simulation(model = mDensity, seed = sample(1:100000, 1))
     Sys.sleep(2)
-    betas2 <- simulation(model = m1, seed = sample(1:100000, 1), amount = 30, repeats = 30)
+    betas2 <- simulation(model = mDensity, seed = sample(1:100000, 1, amount = 3, repeats = 20))
     rm[i,1] <- betas1[1]
     rm[i,2] <- betas1[2]
     rm[i,3] <- betas2[1]
@@ -186,6 +187,8 @@ compare <- function(loops = 10) {
   
   return(c(mean(rm[,3]) / mean(rm[,1]),  mean(rm[,4]) / mean(rm[,2])))
 }
+
+# mDensity und m1
 
 a <- seq(1000, 800, by = -50)
 for (i in a) {

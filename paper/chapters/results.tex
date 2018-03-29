@@ -533,10 +533,67 @@ Dies liegt aber auch vor allem daran, dass \textsc{mExplorativ} die geringste An
 \caption{Graphische Veranschaulichung der verschiedenen Korrelationswerte.}
 \label{fig:wic}
 \end{figure} 
+
 \newpage 
 \subsection{Simulationsaufgabe}
 \paragraph{Beschreibung simulation()}
-\paragraph{Auswertung der Ergebnisse}
-\subparagraph{einfaches Modell: \textit{mDensity}}
-\subparagraph{Ergebnisse mit Gewinnermodell aus der ersten Aufgabe}
+Um  die Arbeit wesentlich zu erleichtern, wurden zwei Funktionen geschrieben, welche die Aufgabe durchf\"uhren.
+\par\smallskip
+Die erste solche Funktion hei\ss{}t \texttt{simulation}, ihr Aufbau wird in Algorithmus \ref{alg:1} dargestellt. \\
+Die Funktion besitzt vier Argumente: \\
+Mit $model$ kann ein beliebiges Modell \"ubergeben werden. Standarm\"a\ss{}ig wurde hier das einfache (und gute) Modell \textsc{mDensity} \"ubergeben. \\
+$amount$ gibt die Menge an zuf\"allig ausgew\"ahlten Counties an, die aus der urspr\"unglichen Datei in die Designmatrix mit aufgenommen werden sollen. \\
+Die Variable $repeats$ wiederum zeigt an, wieviele Pseudobeobachtungen mit der generierten Designmatrix berechnet werden sollen. \\
+Ein Seed, der \"ubergeben werden sollte, damit die generierten Zufallszahlen sich dann auch wirklich unterscheiden. \\
+Als erstes wird der \"ubergebene $seed$ gesetzt. \\
+Dann wird die Designmatrix $c.dm$ ermittelt. \\
+Schlie\ss{}lich wird eine Matrix $betas$ angelegt, die zwei Spalten und $repeats$ viele Zeilen besitzt.
+In ihr werden die berechneten Koeffizienten abgelegt werden. \\
+In der \textbf{for}-Schleife wird folgendes $repeats$ mal ausgef\"uhrt: \\
+Baue eine Testdesignmatrix $c.tdm$, die zwischen mindestens 3 und maximal $amount$ Zeilen randomisiert aus $c.dm$ ausw\"ahlt. \\
+Dann berechne ein Modell $m$ mithilfe von \texttt{glm.nb} aus package \texttt{MASS}, welches als Eingabedaten $c.tdm$ benutzt. \\
+Speichere die in dem Modell $m$ enthaltenen Koeffizienten in einer Zeile von $betas$. \\
+Dann ist die \textbf{for}-Schleife vorbei. \\
+Danach wird noch die tats\"achliche Kovarianmatrix $c.cov$ mittels der Funktion \texttt{cov()} berechnet.\\
+Die asymptotische Kovarianzmatrix ergibt sich aus der inversen Fisher-Informationsmatrix $I$. 
+Wie diese berechnet wird, wurde in Kapitel \ref{sec:met} bereits aufgezeigt:
+\begin{equation}
+I(\underline{\beta}) = \mathbb{X}^T V \mathbb{X}
+\end{equation}
+Daraus kann dann $\underline{\hat{\beta}}_n$ mithilfe von
+\begin{equation}
+\underline{\hat{\beta}}_n \approx N(\underline{\beta}, I^{-1}(\underline{\beta}))
+\end{equation}
+berechnet werden. \\
+Zur\"uckgegeben werden die Betr\"age des Abstandes $\beta_0^{abstand}$ und $\beta_1^{abstand}$ der beiden Koeffizienten.
+\begin{equation}
+\beta_0^{abstand} = |\beta_0^{tats\"achlich} - \beta_0^{asymptotisch}|, \,
+\beta_1^{abstand} = |\beta_1^{tats\"achlich} - \beta_1^{asymptotisch}|
+\end{equation}
+\par\medskip
+
+Da die Unterschiede der Ergebnisse bei kleiner werdenden $repeats$ immer kleiner werden, lassen sich diese nur gut in Relation zueinander vergleichen.
+Dazu wurde die Funktion \texttt{compare(s1, s2, loop)} geschrieben. \\
+\texttt{compare} hat drei Parameter: \textit{simulation1}, \textit{simulation2} und \textit{loop}, welcher standarm\"a\ss{}ig auf $10$ eingestellt ist. \\
+Die beiden Simulationen sind Funktionsaufrufe mit unterschiedlichen \"ubergebenen Parametern. \\
+Diese Funktion \texttt{compare(s1, s2, loop)} vergleicht die Ergebnisse der zwei \"ubergebenen Simulationen und gibt die relativen Unterschiede $\beta_0^{rel}$ und $\beta_1^{rel}$ der beiden jeweils berechneten Koeffizientenabst\"ande $\beta_0^{abstand}$ und $\beta_1^{abstand}$ aus der Funktion \textt{simulation()} zueinander aus. \\
+\begin{equation}
+\beta_0^{rel} = \frac{\beta_0^{abstand \, \text{simulation 1}}}{\beta_0^{abstand \, \text{simulation 2}}},
+\, \,
+\beta_1^{rel} = \frac{\beta_1^{abstand \, \text{simulation 1}}}{\beta_1^{abstand \, \text{simulation 2}}}
+\end{equation} 
+
+Um sicherere Ergebnisse zu erhalten, werden diese beiden Simulationen $repeats$-mal wiederholt und ihre Ergebnisse gemittelt. \\
+\par\bigskip
+Folgende Untersuchungen wurden gemacht:
+\par\smallkip
+Es wurde zun\"achst als einfaches Modell \textsc{mDensity} mit dem Formelaufruf $crimes \sim density$ gew\"ahlt. 
+Nachdem \texttt{compare(s1, s2, loop)} mit den beiden Standardeinstellungen f\"ur die Simulationen gestartet wurde, wurde $\beta_0^{rel} = 0.8445843$ und $\beta_0^{rel} = 1.0204228$ erhalten. Also sind beide $\beta^{rel}$ in etwa $1$.
+Das ist das zu erwartende Ergebnis, wenn beide Simulationen die gleichen Parameter haben. \\
+ 
+
+
+\subsubsection{Auswertung der Ergebnisse}
+\subsubsection{einfaches Modell: \textit{mDensity}}
+\subsubsection{Ergebnisse mit Gewinnermodell aus der ersten Aufgabe}
 Hier leite ich zur Diskussion \"uber.
