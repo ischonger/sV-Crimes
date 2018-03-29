@@ -1,11 +1,12 @@
 \subsection{Modellwahl}
-Wie bereits erw\"ahnt, wurden f\"unf unterschiedliche Herangehensweisen betrachtet, um ein geeignetes Modell zu finden.
+Wie bereits erw\"ahnt, wurden vier unterschiedliche Herangehensweisen betrachtet, um ein geeignetes Modell zu finden.
 Eine jede dieser Herangehensweisen soll am Ende ein 'bestes' Modell liefern.
 Am Ende werden dann all diese 'Gewinnermodelle' noch einmal miteinander verglichen, um ein finales Modell zu ermitteln. \\
 Zun\"achst wird in Kapitel \ref{sec:wdv} auf die w\"ahrend der Untersuchung angenommene  Verteilung angegangen. 
 Bevor dann die unterschiedlichen Herangehensweisen vorgestelt werden, wird die Einflussgr\"o\ss{}e \textit{region} in dem Kapitel \ref{sec:preg} genauer untersucht.
 
-\paragraph{Wahl der Verteilung}
+\subsection{Wahl der Verteilung}
+\label{sec:wdv}
 Wie Osgood in [Osgood2000]\footnote{Vgl.: D.Wayne Osgood: Poisson-Based Regression Analysis of Aggregate
 Crime Rates, Journal of Quantitative Criminology, Vol. 16, No. 1, 2000}
 schreibt, ist es von Vorteil Poissonverteilungen zu nutzen, um Kriminalit\"atsraten zu analysieren.
@@ -23,7 +24,7 @@ In Abbildung \ref{fig:nbd} sind 100 Zufallszahlen auf Basis der negativen Binomi
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{./jpgs/rnegbin.jpeg}
-\caption{In beiden Diagrammen sind die relativierten Verbrechenszahlen rot dargestellt.
+\caption[Verbechenszahlen Vergleich]{In beiden Diagrammen sind die relativierten Verbrechenszahlen rot dargestellt.
 		 In dem linken Diagramm wurden dazu in blau mit Hilfe von \texttt{rnegbin()} berechnete     Zufallszahlen hinzugef\"ugt.
 		 Das rechte Diagramm enth\"alt stattdessen zus\"atzlich Zufallszahlen, die mit \texttt{rnorm()} berechnet wurden.}
 \label{fig:nbd}
@@ -59,13 +60,13 @@ Hier sieht man recht gut, dass die Verbrechenszahlen eher zu einer negativen Bin
   m1Nb & 3.00 & 1598.57 & 106.3874\\ 
    \hline
 \end{tabular}
-\caption{Gegen\"uberstellung der Akaike-Werte zweier Modelle. m1 nimmt eine Gau\ss{}verteilung an, w\"ahrend m1Nb eine negative Binomialverteilung annimmt.}
+\caption[Welche Verteilung?]{Gegen\"uberstellung der Akaike-Werte zweier Modelle. m1 nimmt eine Gau\ss{}verteilung an, w\"ahrend m1Nb eine negative Binomialverteilung annimmt.}
 \label{tab:agn}
 \end{table}
 
 
 \label{sec:preg}
-\paragraph{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
+\subsection{Die besondere Rolle von der Einflussgr\"o\ss{}e \textit{region}}
 Bei der Einflussgr\"o\ss{}e \textit{region} handelt es sich um eine dichotome Dummy-Variable.
 Sie gibt an in welchem Bereich des Bundesstaates (= die Region) sich das County befindet.
 Es gibt drei m\"ogliche Werte, welche diese Variable annehmen kann: \textit{central}, \textit{west} und \textit{other}.
@@ -73,7 +74,7 @@ Es gibt drei m\"ogliche Werte, welche diese Variable annehmen kann: \textit{cent
 \begin{figure}
 \centering
 \includegraphics[scale=0.7, keepaspectratio,width=\textwidth,height=\textheight]{./jpgs/ncc.jpg}
-\caption{Diese \"Ubersicht zeigt in etwa an wo sich die drei unterschiedlichen Regionen befinden
+\caption[Karte North Carolina]{Diese \"Ubersicht zeigt in etwa an wo sich die drei unterschiedlichen Regionen befinden
 \footnote{https://geology.com/county-map/north-carolina.shtml, 28.03.18, 10:57} }
 \label{fig:ncc}
 \end{figure}
@@ -96,7 +97,7 @@ Dies ist deswegen interessant zu betrachten, da schon sehr fr\"uh in den Untersu
   	other & 35 & 2250 & 1235 & 101\\ 
    \hline
 \end{tabular}
-\caption{Vergleich der durchscnittlichen Eigenschaften der Counties aus den jeweiligen Regionen.}
+\caption[Vergleich County-Regionen]{Vergleich der durchscnittlichen Eigenschaften der Counties aus den jeweiligen Regionen.}
 \label{tab:cvp}
 \end{table}
 
@@ -109,7 +110,7 @@ Befindet sich in dieser l\"andlichen Gegend aber eine gr\"o\ss{}ere Stadt, ist \
 \centering
 \includegraphics[scale=0.7]{./jpgs/regionc.jpeg}
  \abovecaptionskip
-\caption{Anhand der Farbgebung l\"asst sich erkennen, in welchen Regionen die Counties wieviele Verbrechen gemeldet haben. Schwarz sind Counties aus der Region \textit{central}, rot die Counties aus der Region \textit{west} und gr\"un die Counties aus der Region \textit{other}.}
+\caption[Regionen Vergleich Verbrechen]{Anhand der Farbgebung l\"asst sich erkennen, in welchen Regionen die Counties wieviele Verbrechen gemeldet haben. Schwarz sind Counties aus der Region \textit{central}, rot die Counties aus der Region \textit{west} und gr\"un die Counties aus der Region \textit{other}.}
 \label{fig:rc}
 \end{figure}
 
@@ -117,7 +118,7 @@ Befindet sich in dieser l\"andlichen Gegend aber eine gr\"o\ss{}ere Stadt, ist \
 \centering
 \includegraphics[scale=0.7]{./jpgs/cdc.jpeg}
  \abovecaptionskip
-\caption{Hier wird das Ver\"altnis \textit{density} zu \textit{crimes} aufgezeigt.}
+\caption[Ver\"altnis \textit{density} zu \textit{crimes}]{Hier wird das Ver\"altnis \textit{density} zu \textit{crimes} aufgezeigt.}
 \label{fig:cdc}
 \end{figure}
 
@@ -129,8 +130,8 @@ Daher wurde diese Dummy-Variable nicht weiter ver\"andert.
 \textsf{R} behandelt solche Variablen automatisch mithilfe von \texttt{as.factor()} als diskrete Zahlen.
 
 
-\subsubsection{Herangehensweisen}
-\paragraph{explorative Herangehensweise}
+\subsection{Herangehensweisen}
+\subsubsection{Herangehensweise}
 \par\smallskip
 Um ein gutes Gef\"uhl f\"ur die Merkmalsvektoren zu bekommen, wurden zun\"achst einige Modelle ausprobiert und mittels AIC verglichen.
 Damit ein Vergleichswert nach dem Akaike-Ma\ss{} vorhanden war, wurde ein komplettes Modell angenommen, das aus allen vorhandenen Merkmalen besteht. Dieses Modell hei\ss{}t \textsc{mAll}. Die entsprechende Formel sieht so aus:
@@ -166,7 +167,7 @@ mAll & 17.00 & 1432.29 & 3003095120 & 92.88015 \\
   m2 & 5.00 & 1580.94 & 3003529863 & 103.9891\\ 
    \hline
 \end{tabular}
-\caption{Vergleich von Modellen, die auf den Wahrscheinlichkeitsvariablen beruhen.}
+\caption[Vergleich Modelle aus Wahrscheinlichkeitsvariablen]{Vergleich von Modellen, die auf den Wahrscheinlichkeitsvariablen beruhen.}
 \label{tab:sfm}
 \end{table}
 
@@ -182,7 +183,7 @@ Das liegt wahrscheinlich daran, dass es wahrscheinlicher ist, dass Straft\"ater 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{./jpgs/prvc.jpeg}
-\caption{Die Arrestierungswahrscheinlichkeiten sind blau gef\"arbt, w\"ahrend die Verurteilungswahrscheinlichkeiten rot gef\"arbt sind.}
+\caption[Vergleich Wahrscheinlichkeiten in Counties]{Die Arrestierungswahrscheinlichkeiten sind blau gef\"arbt, w\"ahrend die Verurteilungswahrscheinlichkeiten rot gef\"arbt sind.}
 \label{fig:nbd}
 \end{figure}
 
@@ -215,7 +216,7 @@ Auch hier ist die selbe Beobachtung wieder zu machen, dass, mit Zunahme der Komp
   mSpatial4 & 11.00 & 1444.15 & 3003082475 & 93.6144\\ 
    \hline
 \end{tabular}
-\caption{\"Ubersicht der Auswertung der Modelle, welche r\"aumliche Einflussgr\"o\ss{}en benutzen.}
+\caption[Auswertung r\"aumliche Einflussgr\"o\ss{}en]{\"Ubersicht der Auswertung der Modelle, welche r\"aumliche Einflussgr\"o\ss{}en benutzen.}
 \label{tab:spa}
 \end{table}
 
@@ -259,7 +260,7 @@ Dies ist insofern schon schl\"ussig, da, wenn es mehr Menschen gibt, automatisch
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{./jpgs/dcc.jpeg}
-\caption{Hier ist das Verh\"altnis Verbrechensanzahl / Bev\"olkerungsdichte veranschaulicht.}
+\caption[Verh\"altnis Verbrechensanzahl / Bev\"olkerungsdichte]{Hier ist das Verh\"altnis Verbrechensanzahl / Bev\"olkerungsdichte veranschaulicht.}
 \label{fig:dcc}
 \end{figure}
 
@@ -280,7 +281,7 @@ Sie werden in der unten stehenden Tabelle aufgelistet.
 \begin{figure}
 \centering
 \includegraphics[scale=1]{./jpgs/assdc.jpeg}
-\caption{Die Diagramme in der oberen H\"alfte zeigen jeweils die AIC-Werte (links oben) und die zueinander relativierten \hat{SPSE} (rechts oben) auf. Da es bei den \hat{assdc} einen gro\ss{}en Ausrei\ss{}er gibt, sind kaum Unterschiede ersichtlich. Daher wurden die zuletzt hinzugef\"ugten Modelle in der unteren Zeile noch einmal dargestellt. F\"ur die Indexierung der unteren Diagramme siehe \ref{lis:pm}. Die Indexierung der oberen Diagramme wird in Tabelle \ref noch einmal aufgef\"uhrt.}
+\caption[Diagramme optimierter Modelle]{Die Diagramme in der oberen H\"alfte zeigen jeweils die AIC-Werte (links oben) und die zueinander relativierten \hat{SPSE} (rechts oben) auf. Da es bei den \hat{assdc} einen gro\ss{}en Ausrei\ss{}er gibt, sind kaum Unterschiede ersichtlich. Daher wurden die zuletzt hinzugef\"ugten Modelle in der unteren Zeile noch einmal dargestellt. F\"ur die Indexierung der unteren Diagramme siehe \ref{lis:pm}. Die Indexierung der oberen Diagramme wird in Tabelle \ref noch einmal aufgef\"uhrt.}
 \label{fig:assdc}
 \end{figure}
 
@@ -326,11 +327,6 @@ Dies liegt wahrscheinlich daran, dass AIC und Devienz auch von der Anzahl der Ei
 Dennoch wurde sich dazu entschlossen, dass das Modell \textsc{mR} das auf diese Herangehensweise ausgesuchte Modell, das beste Modell ist.
 
 
-
-% TODO: Diagramm der Kriterienwerte von Modellen hinzufügen, damit ersichtlich wird, dass komplexere Modelle meist die geringereren fehler haben
-
-% TODO: zusammenfassender Residuenplot Übersicht notwendig.
-
 \subsubsection{Vergleich aller Modelle mit jeweils nur einem Merkmal}
 \label{sec:sv}
 Der Ansatz bei dieser Herangehensweise ist, dass jedes Merkmal in ein einzelnes Modell gesetzt wird.
@@ -359,14 +355,14 @@ Tabelle \ref{tab:asv} listet die unterschiedlichen Modelle auf und liefert besag
   14 & mWfir & 3.00 & 1550.43 &  0.9999175 & 101.349\\ 
    \hline
 \end{tabular}
-\caption{Auflistung aller Modelle, die nur eine Eingabevariable nutzen.}
+\caption[alle einfachen Modelle]{Auflistung aller Modelle, die nur eine Eingabevariable nutzen.}
 \label{tab:asv}
 \end{table}
  
 \begin{figure}
 \centering
 \includegraphics[scale=.7]{./jpgs/asvc.jpeg}
-\caption{Veranschaulichung von Akaike-Informationsma\ss{}, $\hat{SPSE}$ und Devienz der Modelle, die jeweils nur eine Eingabevariable besitzen.}
+\caption[\"Ubersicht einfacher Modelle]{Veranschaulichung von Akaike-Informationsma\ss{}, $\hat{SPSE}$ und Devienz der Modelle, die jeweils nur eine Eingabevariable besitzen.}
 \label{fig:asv}
 \end{figure} 
  
@@ -389,7 +385,7 @@ mSinglesOpt & 8.00 & 1468.70 \\
   mR & 16.00 & 1405.77 \\ 
    \hline
 \end{tabular}
-\caption{AIC-Wert des Ergebnismodells durch Untersuchung der einzelnen Modelle im Vergleich zu den besten Werten aus der erste Herangehensweise.}
+\caption[Vergleich Herangehensweisen 1]{AIC-Wert des Ergebnismodells durch Untersuchung der einzelnen Modelle im Vergleich zu den besten Werten aus der erste Herangehensweise.}
 \label{tab:svw}
 \end{table}
 
@@ -415,7 +411,7 @@ Bis dahin wurden die Einflussgr\"o\ss{}en \textit{prbarr}, \textit{prbpris}, \te
 \begin{figure}
 \centering
 \includegraphics[scale=.7]{./jpgs/sc.jpeg}
-\caption{Veranschaulichung von Akaike-Informationsma\ss{}, $\hat{SPSE}$ und Devienz der Modelle, die jeweils nur eine Eingabevariable besitzen.}
+\caption[Grafik aller einfachen Modelle]{Veranschaulichung von Akaike-Informationsma\ss{}, $\hat{SPSE}$ und Devienz der Modelle, die jeweils nur eine Eingabevariable besitzen.}
 \label{fig:sc}
 \end{figure} 
 
@@ -443,7 +439,7 @@ mSinglesOpt & 8.00 & 1468.70 \\
   m15 & 8.00 & 1458.50 \\ 
    \hline
 \end{tabular}
-\caption{Die Modelle sind hier nach ihrer Iteration benannt.}
+\caption[Iterationsmodellliste]{Die Modelle sind hier nach ihrer Iteration benannt.}
 \end{table}
  
 \subsubsection{Verwendung von cor()}
@@ -481,14 +477,14 @@ Interessant ist aber zu sehen, dass dadurch hier einige Parameter aus der Lohn-G
   14 & mWfir & 0.5460246\\ 
    \hline
 \end{tabular}
-\caption{Auflistung aller Korrelationen der Eingabevariablen mit \textit{crimes}.}
+\caption[Auflistung aller Korrelationen]{Auflistung aller Korrelationen der Eingabevariablen mit \textit{crimes}.}
 \label{tab:cor}
 \end{table}
 
 \begin{figure}
 \centering
 \includegraphics[scale=.7]{./jpgs/corc.jpeg}
-\caption{Graphische Veranschaulichung der verschiedenen Korrelationswerte.}
+\caption[Veranschaulichung Korrelationswerte]{Graphische Veranschaulichung der verschiedenen Korrelationswerte.}
 \label{fig:cor}
 \end{figure} 
 
@@ -503,40 +499,13 @@ mCor & 7.00 & 1472.06 \\
   mR & 16.00 & 1405.77 \\ 
    \hline
 \end{tabular}
-\caption{Vergleich der Modelle mit dieser Herangehensweise mit dem besten Modell aus der ersten Herangehensweise.}
+\caption[Vergleich cor-Ergebnis mit Besten]{Vergleich der Modelle mit dieser Herangehensweise mit dem besten Modell aus der ersten Herangehensweise.}
 \label{tab:co2}
 \end{table}
 
-\subsubsection{Die Gewinnermodelle}
-Tats\"achlich schneidet im Vergleich zu den anderen drei Herangehensweisen die explorative am besten ab, wie anhand von Tabelle \ref{tab:wic} und Abbildung \ref{fig:wic} nachvollzogen werden kann.
-Dies liegt aber auch vor allem daran, dass \textsc{mExplorativ} die geringste Anzahl an Eingabevariablen besitzt.
-
-\begin{table}[ht]
-\centering
-\begin{tabular}{rrrrrr}
-  \hline
-  & name & df & AIC & $\hat{SPSE}$ & Devienz  \\ 
-  \hline
-	1 & mExplorativ & 16.00 & 1405.77 & 0.9999914 & 92.27836 \\ 
-	2 & mEinzeln & 8.00 & 1468.70 &  0.999921 & 94.33151\\   
-  	3 & mStep & 9.00 & 1457.60 &  1 & 94.97083\\ 
-    4 & mCor & 7.00 & 1472.06 &  0.9999654 & 95.23178\\ 
-   \hline
-\end{tabular}
-\caption{Kriterien der vier Gewinnermodelle}
-\label{tab:wic}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics[scale=1]{./jpgs/wic.jpeg}
-\caption{Graphische Veranschaulichung der verschiedenen Korrelationswerte.}
-\label{fig:wic}
-\end{figure} 
-
 \newpage 
 \subsection{Simulationsaufgabe}
-\paragraph{Beschreibung simulation()}
+\subsubsection{Beschreibung des Vorgehens}
 Um  die Arbeit wesentlich zu erleichtern, wurden zwei Funktionen geschrieben, welche die Aufgabe durchf\"uhren.
 \par\smallskip
 Die erste solche Funktion hei\ss{}t \texttt{simulation}, ihr Aufbau wird in Algorithmus \ref{alg:1} dargestellt. \\
@@ -591,9 +560,31 @@ Es wurde zun\"achst als einfaches Modell \textsc{mDensity} mit dem Formelaufruf 
 Nachdem \texttt{compare(s1, s2, loop)} mit den beiden Standardeinstellungen f\"ur die Simulationen gestartet wurde, wurde $\beta_0^{rel} = 0.8445843$ und $\beta_0^{rel} = 1.0204228$ erhalten. Also sind beide $\beta^{rel}$ in etwa $1$.
 Das ist das zu erwartende Ergebnis, wenn beide Simulationen die gleichen Parameter haben. \\
  
-
+\subsubsection{einfaches Modell: \textsc{mDensity}}
+\textsc{mDensity} mit dem Formelaufruf $crimes \sim density$ war bereits in der ersten Aufgabe als sehr geeignetes Modell aufgefallen, da es mit die besten Kriterien (AIC, $\hat{SPSE}$ und Devienz) hatte. \\
+Daher wurde sich dazu hier entschlossen, dieses Modell f\"ur die Betrachtung der Ver\"anderung des Stichprobenumfanges auszuw\"ahlen.
 
 \subsubsection{Auswertung der Ergebnisse}
-\subsubsection{einfaches Modell: \textit{mDensity}}
-\subsubsection{Ergebnisse mit Gewinnermodell aus der ersten Aufgabe}
-Hier leite ich zur Diskussion \"uber.
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{./jpgs/tabelle.jpg}
+\caption{Tabelle der $\beta$-Ver\"altnisse}
+\label{fig:aus}
+\end{figure} 
+
+Diese Tabelle \ref{fig:aus} beinhaltet die Ausgaben von \texttt{compare}, wenn die Parameter der zweiten Simulation die Werte aus der entsprechenden Spalte und Zeile haben. \\
+ 
+In den Werten f\"allt auf, dass beide $\beta$-Relationen in etwa immer einen \"ahnlichen Wert haben.
+F\"ur h\"ohere $repeat$-Werte sind in dieser \"Ubersicht die erhaltenen Zahlen recht klein.
+Dies bedeutet, dass die zweite ver\"anderte Simulation (sie erhielt die in der Tabelle dargestellten $repeat$- und $amount$-Werte) schlechtere Ergebnisse liefert, als die erste Simulation. \\
+Dies ist \"uberraschend, da in einzelnen Experimenten, die Zahlen tats\"achlich gr\"o\ss{}er waren. \\
+Besonders klein sind die $\beta$-Werte f\"ur $repeat = 20$. Dies wiederum ist ein erwartetes Ergebnis, da f\"ur wenige Wiederholungen auch nicht sehr gleiche Werte herauskommen.
+Die zweite Simulation hat hier also schlechtere Werte, als die Standard-Simulation.
+In Abbildung \ref{fig:dv2} kann man sehen, dass die pseudogenerierten Werte denen der tats\"achlichen Werte stark \"ahneln.
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{./jpgs/dv.jpeg}
+\caption[Vergleich Pseudo mit echten Werten]{Rot sind die gesch\"atzten Werte, die mittels \texttt{rnegbin} berechnet wurden. Schwarz sind die tats\"achlichen Werte aus dem urspr\"unglichen Datensatz. }
+\label{fig:dv2}
+\end{figure} 

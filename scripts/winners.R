@@ -43,6 +43,7 @@ plot(cvC[1,])
 cvD <- cbind(deviance(mExplorativ), deviance(mStep), deviance(mEinzeln), deviance(mCor))
 cvD <- cvD[1,]/max(cvD[1,])
 min(cvD)
+cvD
 plot(cvC[1,], col = "green", pch = 16, ylab = "rel. SPSE")
 
 ##### gewinner: #####

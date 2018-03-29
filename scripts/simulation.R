@@ -139,8 +139,9 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031
     m <- glm.nb(crimes~density, data = c.tdm)
     betas[i,] <- m$coefficients
     p <- rnegbin(dim(c.tdm)[1], mu = predict(m, type = "response"), theta = m$call$init.theta)
-    plot(c.tdm$density, p)
-    points(c.tdm$density, c.tdm$crimes, col = 2)
+    plot(c.tdm$density, p, xlab = "Dichte", ylab = "Verbrechen", pch = 16)
+    points(c.tdm$density, c.tdm$crimes, col = 2, pch = 16)
+    #abline(c(betas[i,1]*4, betas[i,2]), col = 9, lwd = 5)
   }
   var(betas)
   c.cov <- cov(betas)
@@ -159,7 +160,7 @@ simulation <- function(model = mDensity, amount = 30, repeats = 20, seed = 26031
   return(cbind(md[1,1], md[2,2]))
 }
 
-simulation(model = m1, seed = 986543)
+simulation(model = mDensity, seed = 98643)
 
 # compare vergleicht zwei simulationen miteinander
 # simulation() gibt den betrag des abstandes von 
